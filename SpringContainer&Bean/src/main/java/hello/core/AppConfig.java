@@ -11,6 +11,9 @@ import hello.core.order.OrderServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+// @Configuration 을 붙이지 않아도 모두 Bean으로 등록 되지만,
+// CGLIB 클래스가 아닌 AppConfig 자체가 빈으로 등록된다.
+// 또한 아래 memberRepository가 3번 호출된다.
 @Configuration
 public class AppConfig {
 
