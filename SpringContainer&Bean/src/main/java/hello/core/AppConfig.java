@@ -14,18 +14,37 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
+    //@Bean memberService -> new MemberRepositoryImpl();
+    //@Bean orderService -> new MemberRepositoryImpl();
+
+
+    // 예상
+    // AppConfig.memberService
+    // AppConfig.memberRepository
+    // AppConfig.memberRepository
+    // AppConfig.orderService
+    // AppConfig.memberRepository
+
+    // 결과
+    // AppConfig.memberService
+    // AppConfig.memberRepository
+    // AppConfig.orderService
+
     @Bean
     public MemberService memberService() {
+        System.out.println("AppConfig.memberService");
         return new MemberServiceImpl(memberRepository());
     }
 
     @Bean
     public MemberRepositoryImpl memberRepository() {
+        System.out.println("AppConfig.memberRepository");
         return new MemberRepositoryImpl();
     }
 
     @Bean
     public OrderService orderService() {
+        System.out.println("AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
