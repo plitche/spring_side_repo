@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #chat { list-style: none; padding: 0; }
+        #chat li { padding: 8px; background: #f4f4f4; margin-bottom: 5px; border-radius: 4px; }
+        #message { padding: 10px; width: 80%; }
+        #send { padding: 10px; width: 18%; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <ul id="chat"></ul>
+    <form id="form" action="">
+        <input id="message" autocomplete="off" /><button id="send">Send</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        $(function() {
+            const socket = io();
+
+            $('#form').submit(function(e) {
+                e.preventDefault();
+                const msg = $('#message').val();
+                if (msg) {
+                    socket.emit('chat message', msg);
+                    $('#message').val('');
+                }
+            });
+
+            socket.on('chat message', function(msg) {
+                $('#chat').append($('<li>').text(msg));
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+        });
+    </script>
+</body>
+</html>
