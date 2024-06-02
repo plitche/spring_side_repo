@@ -6,17 +6,21 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 io.on('connection', (socket) => {
-    console.log('A user connected');
+    console.log('a user connected');
 
     socket.on('chat message', (msg) => {
         io.emit('chat message', msg);
     });
 
+    socket.on('chat result', (msg) => {
+        io.emit('chat result', msg);
+    });
+
     socket.on('disconnect', () => {
-        console.log('A user disconnected');
+        console.log('user disconnected');
     });
 });
 
