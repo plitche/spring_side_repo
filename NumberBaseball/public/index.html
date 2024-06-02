@@ -6,6 +6,8 @@
     <title>Chat App</title>
     <style>
         body {font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;} 
+        .wrap {display: flex;}
+
         #myNumberWrap, #numbersExample {display: flex; justify-content: center; align-items: center; margin-bottom: 20px;} 
         #myNumberWrap p {margin: 0; font-size: 18px; font-weight: bold; color: #007bff;} 
         #myNumberWrap span {font-size: 18px; font-weight: bold; margin-left: 10px; color: #333;} 
@@ -17,50 +19,61 @@
         #numbers, #result {width: 180px; margin: 0 10px; list-style: none; padding: 0;} 
         #numbers li, #result li {padding: 8px; background: #e4e6eb; margin-bottom: 5px; border-radius: 4px; text-align: center; color: #333;} 
         #form, #resultForm {display: flex; justify-content: center; width: 400px; margin-bottom: 10px;} 
-        #message, #strike, #ball {padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px; font-size: 16px;} 
-        #message {width: 60%;} 
+        #message, #strike, #ball {padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px;} 
+        #message {width: 25%;} 
         #strike, #ball {width: 50px; text-align: center;} 
         #send, #sendResult {padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;} 
         #send:hover, #sendResult:hover {background-color: #0056b3;} 
         #resultForm div {display: flex; align-items: center; margin-right: 10px;} 
-        #resultForm span {font-size: 16px; margin-left: 5px;}
+        #resultForm input {width: 12px;}
+        #resultForm span {font-size: 16px; margin-left: 5px; margin-right: 5px;}
+
+        .hide {background-color: lightgray;}
+        .hide:hover {background-color: gray;} 
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div id="myNumberWrap">
-        <p>My Number : </p><span id="myNumber"></span>
-    </div>
-    <div id="numbersExample">
-        <span class="num" id="zero">0</span>
-        <span class="num" id="zero">1</span>
-        <span class="num" id="zero">2</span>
-        <span class="num" id="zero">3</span>
-        <span class="num" id="zero">4</span>
-        <span class="num" id="zero">5</span>
-        <span class="num" id="zero">6</span>
-        <span class="num" id="zero">7</span>
-        <span class="num" id="zero">8</span>
-        <span class="num" id="zero">9</span>
-    </div>
+    <div class="wrap">
+        <div class="leftWrap">
+            <div id="titleWrap">
+                <p id="numTitle">숫자</p>
+                <p id="resultTitle">결과</p>
+            </div>
+            <div id="outputWrap">
+                <ul id="numbers"></ul>
+                <ul id="result"></ul>
+            </div>
+        </div>
+        <div class="rightWrap">
+            <div id="myNumberWrap">
+                <p>My Number : </p><span id="myNumber"></span>
+            </div>
 
-    <div id="titleWrap">
-        <p id="numTitle">숫자</p>
-        <p id="resultTitle">결과</p>
+            <div id="numbersExample">
+                <span class="num" id="zero">0</span>
+                <span class="num" id="zero">1</span>
+                <span class="num" id="zero">2</span>
+                <span class="num" id="zero">3</span>
+                <span class="num" id="zero">4</span>
+                <span class="num" id="zero">5</span>
+                <span class="num" id="zero">6</span>
+                <span class="num" id="zero">7</span>
+                <span class="num" id="zero">8</span>
+                <span class="num" id="zero">9</span>
+            </div>
+
+            <form id="form" action="">
+                <input id="message" autocomplete="off" maxlength="4"/>
+                <button id="send">Send Answer</button>
+            </form>
+            <form id="resultForm" action="">
+                <div><input id="strike" autocomplete="off" maxlength="1"/><span>S</span></div>
+                <div><input id="ball" autocomplete="off" maxlength="1"/><span>B</span></div>
+                <button id="sendResult">Send Result</button>
+            </form>
+        </div>
     </div>
-    <div id="outputWrap">
-        <ul id="numbers"></ul>
-        <ul id="result"></ul>
-    </div>
-    <form id="form" action="">
-        <input id="message" autocomplete="off" maxlength="4"/>
-        <button id="send">Send Answer</button>
-    </form>
-    <form id="resultForm" action="">
-        <div><input id="strike" autocomplete="off" maxlength="1"/><span>S</span></div>
-        <div><input id="ball" autocomplete="off" maxlength="1"/><span>B</span></div>
-        <button id="sendResult">Send Result</button>
-    </form>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -69,6 +82,8 @@
         $(function() {
             const socket = io();
             selectNum();
+            exampleNumbersControl();
+
 
             $('#form').submit(function(e) {
                 e.preventDefault();
@@ -95,6 +110,16 @@
             } else {
                 $('#myNumber').text(myNumber);
             }
+        }
+
+        function exampleNumbersControl() {
+            $('.num').on('click', function() {
+                if ($(this).hasClass('hide')) {
+                    $(this).removeClass('hide');
+                } else {
+                    $(this).addClass('hide');
+                }
+            })
         }
     </script>
 </body>
