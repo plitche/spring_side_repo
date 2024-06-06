@@ -1,30 +1,24 @@
 const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-
+const path = require('path');
+const gameRoutes = require('./routes/gameRoutes');
 const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
+const port = 3000;
 
-app.use(express.static(__dirname + '/public'));
+// EJS 템플릿 엔진 설정
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-io.on('connection', (socket) => {
-    console.log('a user connected');
+// Public 폴더를 정적 파일 제공을 위해 사용
+app.use(express.static(path.join(__dirname, 'public')));
 
-    socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
-    });
-
-    socket.on('chat result', (msg) => {
-        io.emit('chat result', msg);
-    });
-
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
-    });
+// 기본 라우트
+app.get('/', (req, res) => {
+    res.render('index');
 });
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+// 게임 모드 라우트
+app.use('/', gameRoutes);
+
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
 });

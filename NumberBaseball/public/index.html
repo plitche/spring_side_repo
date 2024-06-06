@@ -3,140 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat App</title>
+    <title>숫자 야구 게임</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
-        .wrap { display: flex; }
-        .leftWrap, .rightWrap { margin: 0 20px; }
-        #myNumberWrap { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
-        #myNumberWrap p { margin: 0; font-size: 18px; font-weight: bold; color: #007bff; }
-        #myNumberWrap span { font-size: 18px; font-weight: bold; margin-left: 10px; color: #333; }
-        #numbersExample { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
-        #titleWrap { display: flex; justify-content: space-between; width: 400px; margin-bottom: 10px; }
-        #titleWrap p { text-align: center; width: 100%; font-weight: bold; font-size: 18px; color: #333; }
-        #outputWrap { display: flex; justify-content: space-between; width: 400px; background: #fff; padding: 10px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin-bottom: 20px; max-height: 400px; overflow-y: auto; }
-        #numbers, #result { width: 180px; margin: 0 10px; list-style: none; padding: 0; }
-        #numbers li, #result li { padding: 8px; background: #e4e6eb; margin-bottom: 5px; border-radius: 4px; text-align: center; color: #333; }
-        #form, #resultForm { display: flex; justify-content: center; width: 400px; margin-bottom: 10px; }
-        #message, #strike, #ball { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
-        #message { width: 60%; }
-        #strike, #ball { width: 50px; text-align: center; }
-        #send, #sendResult { padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        #send:hover, #sendResult:hover { background-color: #0056b3; }
-        #resultForm div { display: flex; align-items: center; margin-right: 10px; }
-        #resultForm input { width: 50px; }
-        #resultForm span { font-size: 16px; margin-left: 5px; margin-right: 5px; }
-        .hide { background-color: lightgray; }
-        .hide:hover { background-color: gray; }
-        .num { display: inline-block; width: 30px; height: 30px; line-height: 30px; margin: 0 5px; text-align: center; background-color: #007bff; color: #fff; border-radius: 50%; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
-        .num:hover { background-color: #0056b3; }
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f0f0; }
+        .container { text-align: center; }
+        .button { display: inline-block; margin: 20px; padding: 30px 60px; font-size: 24px; color: #fff; border: none; border-radius: 10px; cursor: pointer; transition: background-color 0.3s ease, transform 0.3s ease; }
+        .button:hover { transform: scale(1.05); }
+        .mode1 { background-color: #007BFF; }
+        .mode1:hover { background-color: #0056b3; }
+        .mode2 { background-color: #28a745; }
+        .mode2:hover { background-color: #218838; }
+        .mode3 { background-color: #ffc107; color: #212529; }
+        .mode3:hover { background-color: #e0a800; }
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="wrap">
-        <div class="leftWrap">
-            <div id="titleWrap">
-                <p id="numTitle">숫자</p>
-                <p id="resultTitle">결과</p>
-            </div>
-            <div id="outputWrap">
-                <ul id="numbers"></ul>
-                <ul id="result"></ul>
-            </div>
-        </div>
-        <div class="rightWrap">
-            <div id="myNumberWrap">
-                <p>My Number : </p><span id="myNumber"></span>
-            </div>
-            <div id="numbersExample">
-                <span class="num" id="zero">0</span>
-                <span class="num" id="zero">1</span>
-                <span class="num" id="zero">2</span>
-                <span class="num" id="zero">3</span>
-                <span class="num" id="zero">4</span>
-                <span class="num" id="zero">5</span>
-                <span class="num" id="zero">6</span>
-                <span class="num" id="zero">7</span>
-                <span class="num" id="zero">8</span>
-                <span class="num" id="zero">9</span>
-            </div>
-            <form id="guessForm" action="">
-                <input id="message" autocomplete="off" maxlength="4"/>
-                <button id="send">Send Answer</button>
-            </form>
-            <form id="resultForm" action="">
-                <div><input id="strike" autocomplete="off" maxlength="1"/><span>S</span></div>
-                <div><input id="ball" autocomplete="off" maxlength="1"/><span>B</span></div>
-                <button id="sendResult">Send Result</button>
-            </form>
-        </div>
+    <div class="container">
+        <h1>숫자 야구 게임</h1>
+        <button class="button mode1" onclick="location.href='/alone'">혼자 맞추기</button>
+        <button class="button mode2" onclick="location.href='/goal'">둘이 하나 맞추기</button>
+        <button class="button mode3" onclick="location.href='/each'">둘이 서로 맞추기</button>
     </div>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const regex1 = /^\d{4}$/;
-        const regex2 = /^\d{1}$/;
-
-        $(function() {
-            const socket = io();
-            selectNum();
-            exampleNumbersControl();
-
-            $('#guessForm').submit(function(e) {
-                e.preventDefault();
-                const msg = $('#message').val();
-                if (regex1.test(msg)) {
-                    socket.emit('chat message', msg);
-                } else {
-                    alert('4자리 숫자만 입력해 주세요.');
-                }
-                $('#message').val('');
-            });
-
-            $('#resultForm').submit(function(e) {
-                e.preventDefault();
-                const strikeNum = $('#strike').val();
-                const ballNum = $('#ball').val();
-
-                if (regex2.test(strikeNum) && regex2.test(ballNum)) {
-                    const resultMsg = `${strikeNum}S${ballNum}B`;
-                    socket.emit('chat result', resultMsg);
-                } else {
-                    alert('1자리 숫자만 입력해 주세요.');
-                }
-                $('#strike, #ball').val('');
-            });
-
-            socket.on('chat message', function(msg) {
-                $('#numbers').append($('<li>').text(msg)); // 여기에 추가하지 않음
-                window.scrollTo(0, document.body.scrollHeight);
-            });
-
-            socket.on('chat result', function(msg) {
-                $('#result').append($('<li>').text(msg)); // 여기에 추가하지 않음
-                window.scrollTo(0, document.body.scrollHeight);
-            });
-        });
-
-        function selectNum() {
-            let myNumber = prompt('이번 게임에 사용할 숫자를 선택하세요.\n(중복되지 않은 4자리 숫자만 가능합니다.)');
-            if (!regex1.test(myNumber)) {
-                selectNum();
-            } else {
-                $('#myNumber').text(myNumber);
-            }
-        }
-
-        function exampleNumbersControl() {
-            $('.num').on('click', function() {
-                if ($(this).hasClass('hide')) {
-                    $(this).removeClass('hide');
-                } else {
-                    $(this).addClass('hide');
-                }
-            })
-        }
-    </script>
 </body>
 </html>
