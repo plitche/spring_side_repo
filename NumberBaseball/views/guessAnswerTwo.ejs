@@ -5,31 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>둘이 하나 맞추기</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
-        .wrap { display: flex; }
-        .leftWrap, .rightWrap { margin: 0 20px; }
-        #myNumberWrap { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
-        #myNumberWrap p { margin: 0; font-size: 18px; font-weight: bold; color: #007bff; }
-        #myNumberWrap span { font-size: 18px; font-weight: bold; margin-left: 10px; color: #333; }
-        #numbersExample { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
-        #titleWrap { display: flex; justify-content: space-between; width: 400px; margin-bottom: 10px; }
-        #titleWrap p { text-align: center; width: 100%; font-weight: bold; font-size: 18px; color: #333; }
-        #outputWrap { display: flex; justify-content: space-between; width: 400px; background: #fff; padding: 10px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin-bottom: 20px; max-height: 400px; overflow-y: auto; }
-        #numbers, #result { width: 180px; margin: 0 10px; list-style: none; padding: 0; }
-        #numbers li, #result li { padding: 8px; background: #e4e6eb; margin-bottom: 5px; border-radius: 4px; text-align: center; color: #333; }
-        #form, #resultForm { display: flex; justify-content: center; width: 400px; margin-bottom: 10px; }
-        #message, #strike, #ball { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
-        #message { width: 60%; }
-        #strike, #ball { width: 50px; text-align: center; }
-        #send, #sendResult { padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        #send:hover, #sendResult:hover { background-color: #0056b3; }
-        #resultForm div { display: flex; align-items: center; margin-right: 10px; }
-        #resultForm input { width: 50px; }
-        #resultForm span { font-size: 16px; margin-left: 5px; margin-right: 5px; }
-        .hide { background-color: lightgray; }
-        .hide:hover { background-color: gray; }
-        .num { display: inline-block; width: 30px; height: 30px; line-height: 30px; margin: 0 5px; text-align: center; background-color: #007bff; color: #fff; border-radius: 50%; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
-        .num:hover { background-color: #0056b3; }
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f0f0; }
+        .wrap { display: flex; width: 80%; max-width: 1200px; background-color: #fff; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); border-radius: 10px; overflow: hidden; }
+        .leftWrap, .rightWrap { padding: 20px; flex: 1; }
+        #titleWrap { display: flex; justify-content: space-between; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
+        #numTitle, #resultTitle { font-weight: bold; font-size: 24px; color: #333; }
+        #outputWrap { display: flex; justify-content: space-between; }
+        #numbers, #result { list-style: none; padding: 0; width: 48%; margin: 0; }
+        #numbers li, #result li { padding: 10px; border-bottom: 1px solid #eee; font-size: 18px; color: #333; }
+        #numbersExample { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .num { display: inline-block; width: 40px; height: 40px; line-height: 40px; border-radius: 50%; background-color: #007BFF; color: #fff; text-align: center; cursor: pointer; transition: background-color 0.3s ease, transform 0.3s ease; }
+        .num:hover { background-color: #0056b3; transform: scale(1.1); }
+        .num.hide { background-color: lightgray; }
+        .num.hide:hover { background-color: gray; }
+        #guessForm { display: flex; align-items: center; justify-content: space-between; }
+        #guessNum { flex: 1; padding: 10px; font-size: 18px; border: 1px solid #ccc; border-radius: 5px; margin-right: 10px; }
+        #send { padding: 10px 20px; font-size: 18px; color: #fff; background-color: #28a745; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease; }
+        #send:hover { background-color: #218838; }
+        #tryCountWrap { display: flex; justify-content: center; margin-top: 30px; }
+        #tryCountBox { display: flex; align-items: center; justify-content: center; padding: 5px 10px; font-size: 24px; font-weight: bold; color: #fff; background-color: lightgrey; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -44,31 +38,26 @@
                 <ul id="numbers"></ul>
                 <ul id="result"></ul>
             </div>
+            <div id="tryCountWrap">
+                <div id="tryCountBox">시도 횟수 : <span id="tryCount">0</span>회</div>
+            </div>
         </div>
         <div class="rightWrap">
-            <div id="myNumberWrap">
-                <p>My Number : </p><span id="myNumber"></span>
-            </div>
             <div id="numbersExample">
                 <span class="num" id="zero">0</span>
-                <span class="num" id="zero">1</span>
-                <span class="num" id="zero">2</span>
-                <span class="num" id="zero">3</span>
-                <span class="num" id="zero">4</span>
-                <span class="num" id="zero">5</span>
-                <span class="num" id="zero">6</span>
-                <span class="num" id="zero">7</span>
-                <span class="num" id="zero">8</span>
-                <span class="num" id="zero">9</span>
+                <span class="num" id="one">1</span>
+                <span class="num" id="two">2</span>
+                <span class="num" id="three">3</span>
+                <span class="num" id="four">4</span>
+                <span class="num" id="five">5</span>
+                <span class="num" id="six">6</span>
+                <span class="num" id="seven">7</span>
+                <span class="num" id="eight">8</span>
+                <span class="num" id="nine">9</span>
             </div>
             <form id="guessForm" action="">
-                <input id="message" autocomplete="off" maxlength="4"/>
+                <input id="guessNum" autocomplete="off" maxlength="4"/>
                 <button id="send">Send Answer</button>
-            </form>
-            <form id="resultForm" action="">
-                <div><input id="strike" autocomplete="off" maxlength="1"/><span>S</span></div>
-                <div><input id="ball" autocomplete="off" maxlength="1"/><span>B</span></div>
-                <button id="sendResult">Send Result</button>
             </form>
         </div>
     </div>
@@ -76,7 +65,8 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const regex1 = /^\d{4}$/;
-        const regex2 = /^\d{1}$/;
+        let done = false;
+        let randomNum;
 
         $(function() {
             const socket = io();

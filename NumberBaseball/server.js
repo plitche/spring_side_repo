@@ -4,6 +4,9 @@ const gameRoutes = require('./routes/gameRoutes');
 const app = express();
 const port = 3000;
 
+// 정적 파일 제공을 위한 미들웨어 설정
+app.use('/js', express.static(path.join(__dirname, 'js')));
+
 // EJS 템플릿 엔진 설정
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));

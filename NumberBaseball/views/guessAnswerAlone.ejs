@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>혼자 맞추기</title>
     <style>
- body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f0f0; }
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f0f0; }
         .wrap { display: flex; width: 80%; max-width: 1200px; background-color: #fff; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); border-radius: 10px; overflow: hidden; }
         .leftWrap, .rightWrap { padding: 20px; flex: 1; }
         #titleWrap { display: flex; justify-content: space-between; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
@@ -26,6 +26,8 @@
         #tryCountBox { display: flex; align-items: center; justify-content: center; padding: 5px 10px; font-size: 24px; font-weight: bold; color: #fff; background-color: lightgrey; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/common.js"></script>
+
 </head>
 <body>
     <div class="wrap">
@@ -63,7 +65,7 @@
     </div>
 
     <script>
-        const regex1 = /^\d{4}$/;
+        
         let done = false;
         let randomNum;
 
@@ -74,7 +76,7 @@
             $('#guessForm').submit(function(e) {
                 e.preventDefault();
                 const guessNum = $('#guessNum').val();
-                if (!regex1.test(guessNum)) {
+                if (!isNumber(guessNum)) {
                     alert('4자리 숫자만 입력해 주세요.');
                     return;
                 }
@@ -90,19 +92,6 @@
 
         });
 
-        function makeRandomNum() {
-            const digits = [];
-
-            while (digits.length < 4) {
-                const randomDigit = Math.floor(Math.random() * 10);
-                if (!digits.includes(randomDigit)) {
-                    digits.push(randomDigit);
-                }
-            }
-
-            return digits.join('');
-        }
-
         function exampleNumbersControl() {
             $('.num').on('click', function() {
                 if ($(this).hasClass('hide')) {
@@ -112,12 +101,6 @@
                 }
             })
         }
-
-        function hasDuplicates(number) {
-                let numArray = number.split('');
-                let numSet = new Set(numArray);
-                return numSet.size !== numArray.length;
-            }
 
         function matchWithAnswer(guessNum) {
             if (done) {
