@@ -27,7 +27,6 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/common.js"></script>
-
 </head>
 <body>
     <div class="wrap">
@@ -65,17 +64,16 @@
     </div>
 
     <script>
-        
         let done = false;
-        let randomNum;
+        let randomNum = makeRandomNum();
 
         $(function() {
-            randomNum = makeRandomNum();
             exampleNumbersControl();
 
             $('#guessForm').submit(function(e) {
                 e.preventDefault();
                 const guessNum = $('#guessNum').val();
+                
                 if (!isNumber(guessNum)) {
                     alert('4자리 숫자만 입력해 주세요.');
                     return;
@@ -91,16 +89,6 @@
             });
 
         });
-
-        function exampleNumbersControl() {
-            $('.num').on('click', function() {
-                if ($(this).hasClass('hide')) {
-                    $(this).removeClass('hide');
-                } else {
-                    $(this).addClass('hide');
-                }
-            })
-        }
 
         function matchWithAnswer(guessNum) {
             if (done) {

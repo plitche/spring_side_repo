@@ -26,6 +26,8 @@
         #tryCountBox { display: flex; align-items: center; justify-content: center; padding: 5px 10px; font-size: 24px; font-weight: bold; color: #fff; background-color: lightgrey; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/common.js"></script>
 </head>
 <body>
     <div class="wrap">
@@ -61,41 +63,31 @@
             </form>
         </div>
     </div>
-
-    <script src="/socket.io/socket.io.js"></script>
+    
     <script>
-        const regex1 = /^\d{4}$/;
         let done = false;
-        let randomNum;
+        let randomNum = makeRandomNum();
 
         $(function() {
             const socket = io();
-            selectNum();
             exampleNumbersControl();
 
             $('#guessForm').submit(function(e) {
                 e.preventDefault();
-                const msg = $('#message').val();
-                if (regex1.test(msg)) {
-                    socket.emit('chat message', msg);
-                } else {
+                const guessNum = $('#guessNum').val();
+                
+                if (!isNumber(guessNum)) {
                     alert('4자리 숫자만 입력해 주세요.');
+                    return;
                 }
-                $('#message').val('');
-            });
 
-            $('#resultForm').submit(function(e) {
-                e.preventDefault();
-                const strikeNum = $('#strike').val();
-                const ballNum = $('#ball').val();
-
-                if (regex2.test(strikeNum) && regex2.test(ballNum)) {
-                    const resultMsg = `${strikeNum}S${ballNum}B`;
-                    socket.emit('chat result', resultMsg);
-                } else {
-                    alert('1자리 숫자만 입력해 주세요.');
+                if (hasDuplicates(guessNum)) {
+                    alert('중복된 숫자는 입력이 불가능합니다.');
+                    return;
                 }
-                $('#strike, #ball').val('');
+
+                matchWithAnswer(guessNum)
+                $('#guessNum').val('');
             });
 
             socket.on('chat message', function(msg) {
@@ -109,23 +101,44 @@
             });
         });
 
-        function selectNum() {
-            let myNumber = prompt('이번 게임에 사용할 숫자를 선택하세요.\n(중복되지 않은 4자리 숫자만 가능합니다.)');
-            if (!regex1.test(myNumber)) {
-                selectNum();
-            } else {
-                $('#myNumber').text(myNumber);
-            }
-        }
+        function matchWithAnswer(guessNum) {
+            if (done) {
+                if (confirm('이미 정답을 맞추셨습니다. 다시 하시겠습니까?')) {
+                    location.reload();
+                }
 
-        function exampleNumbersControl() {
-            $('.num').on('click', function() {
-                if ($(this).hasClass('hide')) {
-                    $(this).removeClass('hide');
-                } else {
-                    $(this).addClass('hide');
+                return;
+            }
+
+            let guessNumArr = guessNum.split('');
+            let answerArr = randomNum.split('');
+            let tryCount = parseInt($('#tryCount').text()) + 1;
+
+            let strikeCount = 0;
+            let ballCount = 0;
+            
+            $.each(guessNumArr, function(idx, val) {
+                if (randomNum.includes(val)) {
+                    if (answerArr[idx] === val) {
+                        strikeCount += 1;
+                    } else {
+                        ballCount += 1;
+                    }
                 }
             })
+
+            let result = strikeCount + ballCount > 0 ? `${strikeCount}S${ballCount}B` : 'OUT';
+            $('#numbers').append(`<li>${guessNum}</li`);
+            $('#result').append(`<li>${result}</li`);
+
+            $('#tryCount').text(tryCount);
+            if (strikeCount == 4) {
+                alert(`${tryCount}회 만에 정답을 맞추셨습니다.`);
+                $('#tryCountBox').css('background-color', 'deepskyblue')
+                done = true;
+            } else {
+                $('#tryCountBox').css('background-color', '#007BFF')
+            }
         }
     </script>
 </body>
