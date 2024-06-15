@@ -25,9 +25,11 @@
         #tryCountWrap { display: flex; justify-content: center; margin-top: 30px; }
         #tryCountBox { display: flex; align-items: center; justify-content: center; padding: 5px 10px; font-size: 24px; font-weight: bold; color: #fff; background-color: lightgrey; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
     </style>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="/js/common.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
 </head>
 <body>
     <div class="wrap">
@@ -65,11 +67,11 @@
     </div>
     
     <script>
+        const socket = io();
         let done = false;
-        let randomNum = makeRandomNum();
+        let randomNum = '<%= randomNumber %>';
 
         $(function() {
-            const socket = io();
             exampleNumbersControl();
 
             $('#guessForm').submit(function(e) {
@@ -91,12 +93,12 @@
             });
 
             socket.on('chat message', function(msg) {
-                $('#numbers').append($('<li>').text(msg)); // 여기에 추가하지 않음
+                $('#numbers').append($('<li>').text(msg));
                 window.scrollTo(0, document.body.scrollHeight);
             });
 
             socket.on('chat result', function(msg) {
-                $('#result').append($('<li>').text(msg)); // 여기에 추가하지 않음
+                $('#result').append($('<li>').text(msg));
                 window.scrollTo(0, document.body.scrollHeight);
             });
         });
@@ -128,8 +130,13 @@
             })
 
             let result = strikeCount + ballCount > 0 ? `${strikeCount}S${ballCount}B` : 'OUT';
+            // 내 화면에 표기
             $('#numbers').append(`<li>${guessNum}</li`);
             $('#result').append(`<li>${result}</li`);
+
+            // emit
+            socket.emit('chat numbers', guessNum);
+            socket.emit('chat result', result);
 
             $('#tryCount').text(tryCount);
             if (strikeCount == 4) {

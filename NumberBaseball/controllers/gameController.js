@@ -1,12 +1,18 @@
+ // 랜덤 숫자 생성 함수 불러오기
+const generateRandomNumber = require('../js/generateRandomNumber');
+
 // 각 게임 모드에 대한 컨트롤러 함수 정의
 exports.guessAnswerAlone = (req, res) => {
-    res.render('guessAnswerAlone');
+    const randomNumber = generateRandomNumber();
+    res.render('guessAnswerAlone', { randomNumber });
 };
 
 exports.guessAnswerTwo = (req, res) => {
-    res.render('guessAnswerTwo');
+    const randomNumber = generateRandomNumber();
+    res.render('guessAnswerTwo', { randomNumber });
 };
 
 exports.guessEach = (req, res) => {
-    res.render('guessEach');
+    const randomNumber = generateRandomNumber();
+    res.render('guessEach', { randomNumber });
 };

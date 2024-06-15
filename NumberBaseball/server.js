@@ -1,7 +1,12 @@
 const express = require('express');
+const http = require('http');
 const path = require('path');
+const socketIo = require('socket.io');
 const gameRoutes = require('./routes/gameRoutes');
+
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 const port = 3000;
 
 // 정적 파일 제공을 위한 미들웨어 설정
@@ -22,6 +27,19 @@ app.get('/', (req, res) => {
 // 게임 모드 라우트
 app.use('/', gameRoutes);
 
-app.listen(port, () => {
+io.on('connection', (socket) => {
+    console.log('A user connected');
+    socket.on('disconnect', () => {
+        console.log('A user disconnected');
+    });
+    socket.on('chat numbers', (msg) => {
+        io.emit('chat message', msg);
+    });
+    socket.on('chat result', (msg) => {
+        io.emit('chat result', msg);
+    });
+});
+
+server.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
