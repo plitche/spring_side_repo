@@ -33,33 +33,36 @@ app.use("/", gameRoutes);
 io.on("connection", (socket) => {
   console.log("A user connected");
 
-  players.push(socket.id);
-  if (currentTurn === null && players.length > 0) {
-    currentTurn = players[0]; // 첫 번째 플레이어를 현재 턴으로 설정
-  }
-  socket.emit("turn", socket.id === currentTurn);
+  // 클라이언트가 고유한 사용자 ID를 보냄
+  socket.on("register", (userId) => {
+    if (!players.some((player) => player.id === userId)) {
+      players.push({ id: userId, socketId: socket.id });
+    }
 
-  socket.on("turn end", () => {
-    const currentIndex = players.indexOf(currentTurn);
-    currentTurn = players[(currentIndex + 1) % players.length];
-    io.emit("turn", currentTurn === socket.id);
+    if (currentTurn === null && players.length > 0) {
+      currentTurn = players[0].id; // 첫 번째 플레이어를 현재 턴으로 설정
+    }
+
+    socket.emit("turn", userId === currentTurn);
+  });
+
+  socket.on("turn end", (userId) => {
+    const currentIndex = players.findIndex((player) => player.id === userId);
+    currentTurn = players[(currentIndex + 1) % players.length].id;
+    io.emit("turn", currentTurn);
   });
 
   socket.on("disconnect", () => {
-    const index = players.indexOf(socket.id);
+    const index = players.findIndex((player) => player.socketId === socket.id);
     if (index !== -1) {
       players.splice(index, 1);
     }
     if (socket.id === currentTurn && players.length > 0) {
-      currentTurn = players[0]; // 다른 플레이어가 있다면 그에게 턴을 넘김
+      currentTurn = players[0].id; // 다른 플레이어가 있다면 그에게 턴을 넘김
     } else if (players.length === 0) {
       currentTurn = null;
     }
-    io.emit("turn", currentTurn === socket.id);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("A user disconnected");
+    io.emit("turn", currentTurn);
   });
 
   socket.on("chat numbers", (msg) => {

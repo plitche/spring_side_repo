@@ -71,9 +71,13 @@
         let done = false;
         let randomNum = '<%= randomNumber %>';
         let isMyTurn = false;
+        const userId = 'user-' + Math.random().toString(36).substr(2, 9); // 고유한 사용자 ID 생성
 
         $(function() {
             exampleNumbersControl();
+
+            // 서버에 사용자 ID 등록
+            socket.emit('register', userId);
 
             $('#guessForm').submit(function(e) {
                 e.preventDefault();
@@ -99,7 +103,7 @@
             });
 
             socket.on('turn', function(turn) {
-                isMyTurn = turn;
+                isMyTurn = (turn === userId);
                 if (isMyTurn) {
                     alert('당신의 턴입니다!');
                 } else {
@@ -152,7 +156,7 @@
             // emit
             socket.emit('chat numbers', guessNum);
             socket.emit('chat result', result);
-            socket.emit('turn end'); // 턴 종료 이벤트
+            socket.emit('turn end', userId); // 턴 종료 이벤트와 함께 사용자 ID 전송
 
             $('#tryCount').text(tryCount);
             if (strikeCount == 4) {
