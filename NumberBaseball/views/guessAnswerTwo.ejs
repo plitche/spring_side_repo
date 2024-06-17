@@ -70,6 +70,7 @@
         const socket = io();
         let done = false;
         let randomNum = '<%= randomNumber %>';
+        let isMyTurn = false;
 
         $(function() {
             exampleNumbersControl();
@@ -78,6 +79,11 @@
                 e.preventDefault();
                 const guessNum = $('#guessNum').val();
                 
+                if (!isMyTurn) {
+                    alert('현재는 상대방의 턴입니다. 잠시 기다려 주세요.');
+                    return;
+                }   
+
                 if (!isNumber(guessNum)) {
                     alert('4자리 숫자만 입력해 주세요.');
                     return;
@@ -92,6 +98,15 @@
                 $('#guessNum').val('');
             });
 
+            socket.on('turn', function(turn) {
+                isMyTurn = turn;
+                if (isMyTurn) {
+                    alert('당신의 턴입니다!');
+                } else {
+                    alert('상대방의 턴입니다. 잠시 기다려 주세요.');
+                }
+            });
+
             socket.on('chat message', function(msg) {
                 $('#numbers').append($('<li>').text(msg));
                 window.scrollTo(0, document.body.scrollHeight);
@@ -99,6 +114,7 @@
 
             socket.on('chat result', function(msg) {
                 $('#result').append($('<li>').text(msg));
+                
                 window.scrollTo(0, document.body.scrollHeight);
             });
         });
@@ -108,7 +124,6 @@
                 if (confirm('이미 정답을 맞추셨습니다. 다시 하시겠습니까?')) {
                     location.reload();
                 }
-
                 return;
             }
 
@@ -131,12 +146,13 @@
 
             let result = strikeCount + ballCount > 0 ? `${strikeCount}S${ballCount}B` : 'OUT';
             // 내 화면에 표기
-            $('#numbers').append(`<li>${guessNum}</li`);
-            $('#result').append(`<li>${result}</li`);
+            // $('#numbers').append(`<li>${guessNum}</li`);
+            // $('#result').append(`<li>${result}</li`);
 
             // emit
             socket.emit('chat numbers', guessNum);
             socket.emit('chat result', result);
+            socket.emit('turn end'); // 턴 종료 이벤트
 
             $('#tryCount').text(tryCount);
             if (strikeCount == 4) {
@@ -146,6 +162,8 @@
             } else {
                 $('#tryCountBox').css('background-color', '#007BFF')
             }
+
+            isMyTurn = false;
         }
     </script>
 </body>
