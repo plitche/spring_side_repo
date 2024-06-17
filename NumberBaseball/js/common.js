@@ -38,5 +38,5 @@ function exampleNumbersControl() {
 }
 
 function testCommit() {
-  return "test Commit contents with other device and other account";
+  console.log("test Commit contents with other device and other account");
 }
