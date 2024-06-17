@@ -40,10 +40,10 @@ io.on("connection", (socket) => {
     }
 
     if (currentTurn === null && players.length > 0) {
-      currentTurn = players[0].id; // 첫 번째 플레이어를 현재 턴으로 설정
+      currentTurn = userId; // 첫 번째 플레이어를 현재 턴으로 설정
     }
 
-    socket.emit("turn", userId === currentTurn);
+    socket.emit("turn", currentTurn, players.length);
   });
 
   socket.on("turn end", (userId) => {

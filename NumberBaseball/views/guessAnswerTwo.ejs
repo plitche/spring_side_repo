@@ -102,12 +102,17 @@
                 $('#guessNum').val('');
             });
 
-            socket.on('turn', function(turn) {
+            socket.on('turn', function(turn, players) {
+                console.log(players)
+
+                if (players < 2) {
+                    alert('2명 이상의 플레이어가 있어야 경기가 가능합니다. \n잠시만 기다려 주세요.');
+                    return;
+                }
+
                 isMyTurn = (turn === userId);
                 if (isMyTurn) {
                     alert('당신의 턴입니다!');
-                } else {
-                    alert('상대방의 턴입니다. 잠시 기다려 주세요.');
                 }
             });
 
