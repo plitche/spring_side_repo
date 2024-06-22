@@ -1,0 +1,48 @@
+* pom.xml
+    - Maven 프로젝트를 생성하면 루트 디렉토리에 생성되는 파일
+    - Project Object Model 정보를 담고 있음
+        > 프로젝트 정보: 프로젝트 이름, 개발자 목록, 라이센스 등
+        > 빌드 설정 정보: 소스, 리소스, 라이프 사이클 등 실행할 플러그인
+        > POM 연관 정보: 의존 프로젝트(모듈), 상위 프로젝트, 하위 모듈 등
+
+* 프로젝트 기본 정보
+    - <name>: 프로젝트 명
+    - <url>: 프로젝트 사이트 URL
+    - <description>: 프로젝트에 대한 간단할 설명
+    - <organization>: 프로젝트를 관리하는 단체 설명
+
+* 프로젝트 연관 정보
+    - <groupId>: 프로젝트의 그룸 ID 설정
+    - <artifactId>: 프로젝트 아티팩트 ID 설정
+    - <version>: 프로젝트의 버전
+    - <packaging>: 패키징 타입 설정
+
+* 프로젝트 의존 설정
+    - <dependencies>: 라이브러리 의존성 정보를 가지고 있는 dependency 태그를 묶은 태그
+    - <dependency>: 각 라이브러리의 정보를 담는 태그
+    - <groupId>: 의존성 라이브러리의 group ID
+    - <artifactId>: 의존성 라이브러리의 아티팩트 ID
+    - <version>: 의존성 라이브러리의 버전
+    - <scope>: 해당 라이브러리의 이용 범위를 지정
+    - <optional>: 다른 프로젝트에서 이 프로젝트를 의존성 설정 할 경우 사용할지 결정
+
+* scope 태그
+    - compile(default) : 기본값, 이 값으로 설정하는 경우 모든 클래스 경로에서 사용할 수 있음, 컴파일 및 배포 상황에서 같이 제공됨
+    - provided : compile과 유사하지만 JDK혹은 Container 가 런타임 시에만 제공, 컴파일 혹은 테스트 경로에만 사용하며 배포시에는 빠짐
+    - runtime : 컴파일 시에는 사용하지 않고, 실행 상황에서만 사용됨, 런타임과 테스트 경로에서는 있지만 컴파일 클래스 경로에는 존재하지 않음
+    - test : 테스트 상황에서만 사용되는 라이브러리, 실 가동 상황에서는 필요없는 라이브러리를 사용할 경우
+    - system : provided와 유사하지만 저장소에서 관리하지 않고 직접 관리하는 JAR 추가
+
+* 현 시점 설정되어 있는 라이브러리
+    - Spring Boot Starter Parent
+        > 프로젝트에서 사용하는 다양한 라이브러리 간의 버전 충돌 문제가 발생할 수 있는 것을 방지
+        > 의존성 조합간 충돌 문제가 없는 검증된 버전 정보 조합을 제공
+
+    - Spring Boot Starter Web
+        > Spring MVC 를 사용한 REST 서비스를 개발하는데 사용
+
+    - Spring Boot Starter Test
+        > JUnit, Hamcrest, Mockito를 포함한 스프링 어플리케이션의 테스트 기능을 제공
+
+
+
