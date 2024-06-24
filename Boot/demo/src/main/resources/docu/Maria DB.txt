@@ -1,0 +1,2 @@
+https://mariadb.com/kb/ko/mariadb-korean/
+HeidiSQL.exe
