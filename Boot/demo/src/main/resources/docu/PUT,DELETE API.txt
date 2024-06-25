@@ -1,0 +1,14 @@
+* PUT API
+    - 해당 리소스가 존재하면 갱신하고, 리소스가 없을 경우에 새로 생성해주는 API
+    - 업데이트를 위한 메소드
+    - 기본적인 동작 방식은 Post API 와 동일
+
+* DELETE API
+    - 서버를 통해 리소스를 삭제하기 위해 사용되는 API
+    - 일반적으로 @PathVariable 을 통해 리소스 ID 등을 받아 처리
+
+* ResponseEntity
+    - Spring Framework 에서 제공하는 클래스 중 HttpEntity 라는 클래스를 상속받아 사용하는 클래스
+    - 사용자의 HttpRequest 에 대한 응답 데이터를 포함
+
+    - 포함하는 클래스 : HttpStatus, HttpHeaders, HttpBody
