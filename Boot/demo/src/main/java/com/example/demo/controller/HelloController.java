@@ -1,10 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.MemberDTO;
-import lombok.Getter;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 /**
 @RestController

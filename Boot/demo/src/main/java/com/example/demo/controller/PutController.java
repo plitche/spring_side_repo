@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.MemberDTO;
 
-import java.lang.reflect.Member;
 import java.util.Map;
 
 @RestController
