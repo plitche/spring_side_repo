@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/product-api")
 public class ProductController {
@@ -35,7 +37,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/product")
-    public ProductDto createProduct(@RequestBody ProductDto productDto) {
+    public ProductDto createProduct(@Valid @RequestBody ProductDto productDto) {
 
         String productId = productDto.getProductId();
         String productName = productDto.getProductName();
