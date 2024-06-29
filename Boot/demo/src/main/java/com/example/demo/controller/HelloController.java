@@ -2,21 +2,24 @@ package com.example.demo.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
-@RestController
-    - Spring Framework 4버전부터 사용가능한 어노테이션
-    - @Controller에 @ResponseBody가 결합된 어노테이션
-    - 컨트롤러 클래스 하위 메소드에 @ResponseBody 어노테이션을 붙이지 않아도 문자열과 JSON 등을 전송할 수 있음
-    - View를 거치지 않고 HTTP ResponseBody에 직접 Return값을 담아 보내게 됨
+import java.util.HashMap;
+import java.util.Map;
 
-@RequestMapping
-    - MVC의 핸들러 매핑(Handler Mapping)을 위해서 DefaultAnnotationHandlerMapping을 사용
-    - DefaultAnnotationHandlerMapping 매핑정보로 @RequestMapping 어노테이션을 활용
-    - 클래스와 메소드의 RequestMapping을 통해 URL을 매핑하여 경로를 설정하여 해당 메소드에서 처리
-    - GET, POST, DELETE, PUT, PATCH
-*/
+/**
+ * @RestController - Spring Framework 4버전부터 사용가능한 어노테이션
+ * - @Controller에 @ResponseBody가 결합된 어노테이션
+ * - 컨트롤러 클래스 하위 메소드에 @ResponseBody 어노테이션을 붙이지 않아도 문자열과 JSON 등을 전송할 수 있음
+ * - View를 거치지 않고 HTTP ResponseBody에 직접 Return값을 담아 보내게 됨
+ * @RequestMapping - MVC의 핸들러 매핑(Handler Mapping)을 위해서 DefaultAnnotationHandlerMapping을 사용
+ * - DefaultAnnotationHandlerMapping 매핑정보로 @RequestMapping 어노테이션을 활용
+ * - 클래스와 메소드의 RequestMapping을 통해 URL을 매핑하여 경로를 설정하여 해당 메소드에서 처리
+ * - GET, POST, DELETE, PUT, PATCH
+ */
 
 @RestController
 public class HelloController {
@@ -38,4 +41,23 @@ public class HelloController {
         LOGGER.error("Error Log");
     }
 
+    @PostMapping("/exception")
+    public void exceptionTest() throws Exception {
+        throw new Exception();
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<Map<String, String>> ExceptionHandler(Exception e) {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+        LOGGER.info("controller 내 ExceptionHandler 호출");
+
+        Map<String, String> map = new HashMap<>();
+        map.put("error type", httpStatus.getReasonPhrase());
+        map.put("code", "400");
+        map.put("message", "에러 발생");
+
+        return new ResponseEntity<>(map, responseHeaders, httpStatus);
+    }
 }
