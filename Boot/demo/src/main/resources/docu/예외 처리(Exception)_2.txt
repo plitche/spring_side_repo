@@ -1,0 +1,11 @@
+* Custom Exception
+    - error type, error code, message를 응답함으로써 Client에 원하는 응답을 내 뱉기 위함
+
+    - error type : HttpStatus의 reasonPhrase
+    - error code : HttpStatus의 value
+    - message : 상황별 디테일 Message
+
+* HttpStatus
+    - Enum 클래스
+
+
