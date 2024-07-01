@@ -57,7 +57,7 @@ public class ProductController {
 
     @PostMapping("/product/exception")
     public void exceptionTest() throws PlitcheException {
-        throw new PlitcheException(Constants.ExceptionClass.PRODUCT, HttpStatus.BAD_REQUEST, "의도한 에러가 발생하였습니다.")
+        throw new PlitcheException(Constants.ExceptionClass.PRODUCT, HttpStatus.BAD_REQUEST, "의도한 에러가 발생하였습니다.");
     }
 
 
