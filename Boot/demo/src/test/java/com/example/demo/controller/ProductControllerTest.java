@@ -36,21 +36,21 @@ public class ProductControllerTest {
     void getProductTest() throws Exception {
         // given : Mock 객체가 특정 상황에서 해야하는 행위를 정의하는 메소드
         given(productService.getProduct("1234")).willReturn(
-                new ProductDto("12435", "pen", 5000, 2000)
+            new ProductDto("12435", "pen", 5000, 2000)
         );
 
         String productId = "1234";
 
         // andExpect : 기대하는 값이 나왔는지 체크해볼 수 있는 메소드
         mockMvc.perform(
-                get("/api/v1/product-api/product/" + productId)
+            get("/api/v1/product-api/product/" + productId)
         )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productId").exists()) // json path의 depth가 깊어지면 .을 추가하여 탐색할 수 있음
-                .andExpect(jsonPath("$.productName").exists())
-                .andExpect(jsonPath("$.productPrice").exists())
-                .andExpect(jsonPath("$.productStock").exists())
-                .andDo(print());
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.productId").exists()) // json path의 depth가 깊어지면 .을 추가하여 탐색할 수 있음
+            .andExpect(jsonPath("$.productName").exists())
+            .andExpect(jsonPath("$.productPrice").exists())
+            .andExpect(jsonPath("$.productStock").exists())
+            .andDo(print());
 
         // verify : 해당 객체의 메소드가 실행되었는지를 체크해줌
         verify(productService).getProduct("1234");
@@ -61,10 +61,11 @@ public class ProductControllerTest {
     void createProductTest() throws Exception {
         // Mock 객체에서 특정 메소드가 실행되는 경우 실제 Return을 줄 수 없기 때문에 아래와 같이 가정 사항을 만들어 줌
         given(productService.saveProduct("15871", "pen", 5000, 2000)).willReturn(
-                new ProductDto("15871", "pen", 5000, 2000)
+            new ProductDto("15871", "pen", 5000, 2000)
         );
 
-        ProductDto productDto = ProductDto.builder().productId("15871").productId("pen").productPrice(5000).productStock(2000).build();
+        ProductDto productDto = ProductDto.builder().productId("15871").productId("pen")
+            .productPrice(5000).productStock(2000).build();
         Gson gson = new Gson();
         String content = gson.toJson(productDto);
 
@@ -72,16 +73,16 @@ public class ProductControllerTest {
         String json = new ObjectMapper().writeValueAsString(productDto);
 
         mockMvc.perform(
-                post("/api/v1/product-api/product")
-                        .content(content)
-                        .contentType(MediaType.APPLICATION_JSON)
+            post("/api/v1/product-api/product")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
         )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productId").exists())
-                .andExpect(jsonPath("$.productName").exists())
-                .andExpect(jsonPath("$.productPrice").exists())
-                .andExpect(jsonPath("$.productStock").exists())
-                .andDo(print());
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.productId").exists())
+            .andExpect(jsonPath("$.productName").exists())
+            .andExpect(jsonPath("$.productPrice").exists())
+            .andExpect(jsonPath("$.productStock").exists())
+            .andDo(print());
 
         verify(productService).saveProduct("15871", "pen", 5000, 2000);
     }

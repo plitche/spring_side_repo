@@ -1,0 +1,8 @@
+* URL
+    - https://google.github.io/styleguide/javaguide.html
+    - github.com/google/styleguide
+
+* Setting > Code Style > Scheme
+* Setting > Code Style > Java
+
+* reFormatting 단축키 : Ctrl + Shift + Alt L
