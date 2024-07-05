@@ -36,13 +36,12 @@ public class ShortUrlController {
     public ShortUrlResponseDto generateShortUrl(String originalUrl) {
         LOGGER.info("[generateSHortUrl] perform API. CLIENT_ID : {}, CLIENT_SECRET : {}", CLIENT_ID, CLIENT_SECRET);
 
-        return shortUrlService.generateSHortUrl(CLIENT_ID, CLIENT_SECRET, originalUrl);
+        return shortUrlService.generateShortUrl(CLIENT_ID, CLIENT_SECRET, originalUrl);
     }
 
     @GetMapping
     public ShortUrlResponseDto getShortUrl(String originalUrl) {
-        ShortUrlResponseDto shortUrlResponseDto = new ShortUrlResponseDto("ss", "ss");
-
+        // ShortUrlResponseDto shortUrlResponseDto = new ShortUrlResponseDto("ss", "ss");
         return shortUrlService.getShortUrl(CLIENT_ID, CLIENT_SECRET, originalUrl);
     }
 

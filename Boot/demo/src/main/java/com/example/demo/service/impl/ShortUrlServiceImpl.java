@@ -48,22 +48,30 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         shortUrlDAO.saveShortUrl(shortUrlEntity);
 
         ShortUrlResponseDto shortUrlResponseDto = new ShortUrlResponseDto(orgUrl, shortUrl);
+        LOGGER.info("[generateShortUrl] Response DTO : {}", shortUrlResponseDto.toString());
+        return shortUrlResponseDto;
     }
 
     @Override
     public ShortUrlResponseDto getShortUrl(String client_id, String client_secret, String originalUrl) {
         LOGGER.info("[getShortUrl] request data : {}", originalUrl);
-        ShortUrlEntity shortUrlEntity = shortUrlDAO.getShortUrl(originalUrl);
+        ShortUrlEntity getShortUrlEntity = shortUrlDAO.getShortUrl(originalUrl);
 
         String orgUrl;
         String shortUrl;
 
-        if (shortUrlEntity == null ){
-            LOGGER.info("[getSHortUrl] No ENtity in Database.");
+        if (getShortUrlEntity == null){
+            LOGGER.info("[getShortUrl] No Entity in Database.");
             ResponseEntity<NaverUriDto> responseEntity = requestShortUrl(client_id, client_secret, originalUrl);
 
+            orgUrl = responseEntity.getBody().getResult().getOrgUrl();
+            shortUrl = responseEntity.getBody().getResult().getUrl();
+        } else {
+            orgUrl = getShortUrlEntity.getOrgUrl();
+            shortUrl = getShortUrlEntity.getUrl();
         }
 
+        ShortUrlResponseDto shortUrlResponseDto = new ShortUrlResponseDto(orgUrl, shortUrl);
         LOGGER.info("[getShortUrl] Response DTO : {}", shortUrlResponseDto.toString());
         return shortUrlResponseDto;
     }

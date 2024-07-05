@@ -4,7 +4,7 @@ import com.example.demo.data.dto.ShortUrlResponseDto;
 
 public interface ShortUrlService {
 
-    ShortUrlResponseDto generateSHortUrl(String client_id, String client_secret, String originalUrl);
+    ShortUrlResponseDto generateShortUrl(String client_id, String client_secret, String originalUrl);
 
     ShortUrlResponseDto getShortUrl(String client_id, String client_secret, String originalUrl);
 
