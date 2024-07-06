@@ -23,6 +23,8 @@ import lombok.ToString;
 @Builder
 @Table(name = "short_url")
 public class ShortUrlEntity extends BaseEntity {
+    // 상속을 받음으로써 BaseEntity에 있는 컬럼을 가지고 오는데, 그렇게 하기 위해서는 @MappedSuperclass가 필요하다
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
