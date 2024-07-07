@@ -1,0 +1,30 @@
+* @MappedSuperclass
+  - 여러 엔티티 객체에서 사용되는 공통 속성이 존재할 경우가 많음
+  - 공통적으로 사용되는 속성은 대표적으로 id, createdAt, updatedAt 등이 있음
+  - 공통되는 속성을 별도의 클래스로 구분하여 @MappedSuperclass를 선언한 후 사용
+  - 코드 상 분리되어 있는 것이며, 데이터베이스의 테이블 개념에는 분리되어 있지 않음
+
+* Auditing
+  - JPA에서의 Auditing은 각 엔티티 별로 누가, 언제 접근했는지 기록하여 감시 체계를 꾸리는 것을 의미
+  - 예) 언제 데이터가 생성되었는지, 누가 데이터를 생성했는지, 언제 데이터가 변경되었는지 등
+  - Spring Data JPA에서 이 기능을 사용하기 위해서는 @EnableJpaAuditing을 사용해야 함
+
+* @EntityListener
+  - 엔티티 객체를 데이터베이스에 적용하기 전/후에 콜백을 요청하는 어노테이션
+  - @EntityListener의 파라미터로 콜백을 요청할 클래스를 지정하여 사용
+  - @EntityListener의 요청 시점은 아래와 같음
+    > @PostLoad
+    > @PrePersist
+    > @PostPersist
+    > @PreUpdate
+    > @PostUpdate
+    > @PreRemove
+    > @PostRemove
+
+* Jpa Auditing Annotation
+  - @CreatedDate : 엔티티가 저장되는 시점에 자동으로 시간을 주입
+  - @CreatedBy : 엔티티가 저장되는 시점에 저장 주체가 누구인지 주입
+  - @LastModifiedDate : 엔티티가 수정되는 시점에 자동으로 시간을 주입
+  - @LastModifiedBy : 엔티티가 수정되는 시점에 수정 주체가 누구인지 주입
+
+  - CreatedBy와 LastModifiedBy는 이후 AuditorAware와 Spring Security 시간에 다룰 예정

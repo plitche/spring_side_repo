@@ -1,6 +1,8 @@
-package com.example.demo.data.dto;
+package com.example.demo.data.entity;
 
-import com.example.demo.data.entity.BaseEntity;
+import com.example.demo.data.entity.listener.CustomListener;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,25 +12,21 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
-@Table(name = "product")
-public class ProductDto extends BaseEntity {
+@Table(name = "listener")
+@EntityListeners(CustomListener.class)
+public class ListenerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String productId;
+    private long id;
 
-    private String productName;
-
-    private int productPrice;
-
-    private int productStock;
+    private String name;
 
 }
