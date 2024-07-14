@@ -1,7 +1,7 @@
 package com.example.demo.data.handler.impl;
 
 import com.example.demo.data.dao.ProductDAO;
-import com.example.demo.data.entity.ProductEntity;
+import com.example.demo.data.entity.Product;
 import com.example.demo.data.handler.ProductDataHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +19,14 @@ public class ProductDataHandlerImpl implements ProductDataHandler {
     }
 
     @Override
-    public ProductEntity getProductEntity(String productId) {
+    public Product getProductEntity(String productId) {
         return productDAO.getProduct(productId);
     }
 
     @Override
-    public ProductEntity saveProductEntity(String productId, String productName, int productPrice, int productStock) {
-        ProductEntity productEntity = new ProductEntity(productId, productName, productPrice, productStock);
+    public Product saveProductEntity(String productId, String productName, int productPrice, int productStock) {
+        Product product = new Product(productId, productName, productPrice, productStock);
 
-        return productDAO.saveProduct(productEntity);
+        return productDAO.saveProduct(product);
     }
 }

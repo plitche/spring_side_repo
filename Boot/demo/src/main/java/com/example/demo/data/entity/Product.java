@@ -14,20 +14,20 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder
 @Table(name = "product")
-public class ProductEntity {
+public class Product {
 
     @Id
-    String productId;
-    String productName;
-    Integer productPrice;
-    Integer productStock;
+    String id;
+    String name;
+    Integer price;
+    Integer stock;
 
     public ProductDto toDto() {
         return ProductDto.builder()
-                .productId(productId)
-                .productName(productName)
-                .productPrice(productPrice)
-                .productStock(productStock)
+                .productId(id)
+                .productName(name)
+                .productPrice(price)
+                .productStock(stock)
                 .build();
     }
 

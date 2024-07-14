@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.data.dto.ProductDto;
-import com.example.demo.data.entity.ProductEntity;
+import com.example.demo.data.entity.Product;
 import com.example.demo.data.handler.ProductDataHandler;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +19,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getProduct(String productId) {
-        ProductEntity productEntity = productDataHandler.getProductEntity(productId);
+        Product product = productDataHandler.getProductEntity(productId);
 
-        ProductDto productDto = new ProductDto(productEntity.getProductId(),
-                productEntity.getProductName(), productEntity.getProductPrice(), productEntity.getProductStock());
+        ProductDto productDto = new ProductDto(product.getId(),
+                product.getName(), product.getPrice(), product.getStock());
 
         return productDto;
     }
 
     @Override
     public ProductDto saveProduct(String productId, String productName, int productPrice, int productStock) {
-        ProductEntity productEntity = productDataHandler.saveProductEntity(productId, productName, productPrice, productStock);
+        Product product = productDataHandler.saveProductEntity(productId, productName, productPrice, productStock);
 
-        ProductDto productDto = new ProductDto(productEntity.getProductId(),
-                productEntity.getProductName(), productEntity.getProductPrice(), productEntity.getProductStock());
+        ProductDto productDto = new ProductDto(product.getId(),
+                product.getName(), product.getPrice(), product.getStock());
 
         return productDto;
     }

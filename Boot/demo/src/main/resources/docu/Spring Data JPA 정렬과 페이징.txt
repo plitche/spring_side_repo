@@ -27,5 +27,3 @@
       : 페이지 번호, 페이지당 데이터 개수, 정렬 / sort에 의해 정렬
     > of(int page, int size, Direction, String... properties)
       : 페이지 번호, 페이지당 데이터 개수, (enum)정렬 방향, 컬럼 / Sort.by(direction, properties)에 의해 정렬
-
-*

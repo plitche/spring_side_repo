@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.data.entity.ListenerEntity;
+import com.example.demo.data.entity.Listener;
 import com.example.demo.data.repository.ListenerRepository;
 import com.example.demo.service.ListenerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,25 +17,25 @@ public class ListenerServiceImpl implements ListenerService {
     }
 
     @Override
-    public ListenerEntity getEntity(Long id) {
+    public Listener getEntity(Long id) {
         return listenerRepository.findById(id).get();
     }
 
     @Override
-    public void saveEntity(ListenerEntity listenerEntity) {
-        listenerRepository.save(listenerEntity);
+    public void saveEntity(Listener listener) {
+        listenerRepository.save(listener);
     }
 
     @Override
-    public void updateEntity(ListenerEntity listenerEntity) {
-        ListenerEntity entity = listenerRepository.findById(listenerEntity.getId()).get();
-        entity.setName(listenerEntity.getName());
+    public void updateEntity(Listener listener) {
+        Listener entity = listenerRepository.findById(listener.getId()).get();
+        entity.setName(listener.getName());
 
         listenerRepository.save(entity);
     }
 
     @Override
-    public void removeEntity(ListenerEntity entity) {
+    public void removeEntity(Listener entity) {
         listenerRepository.delete(entity);
     }
 }

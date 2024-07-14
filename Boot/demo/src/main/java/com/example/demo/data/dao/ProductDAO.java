@@ -1,12 +1,11 @@
 package com.example.demo.data.dao;
 
-import com.example.demo.data.dto.ProductDto;
-import com.example.demo.data.entity.ProductEntity;
+import com.example.demo.data.entity.Product;
 
 public interface ProductDAO {
 
-    ProductEntity saveProduct(ProductEntity productEntity);
+    Product saveProduct(Product product);
 
-    ProductEntity getProduct(String productId);
+    Product getProduct(String productId);
 
 }

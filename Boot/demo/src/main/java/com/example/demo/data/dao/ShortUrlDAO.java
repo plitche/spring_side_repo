@@ -1,16 +1,16 @@
 package com.example.demo.data.dao;
 
-import com.example.demo.data.entity.ShortUrlEntity;
+import com.example.demo.data.entity.ShortUrl;
 
 public interface ShortUrlDAO {
 
-    ShortUrlEntity getShortUrl(String originalUrl);
+    ShortUrl getShortUrl(String originalUrl);
 
-    ShortUrlEntity saveShortUrl(ShortUrlEntity shortUrlEntity);
+    ShortUrl saveShortUrl(ShortUrl shortUrl);
 
-    ShortUrlEntity getOriginalUrl(String shortUrl);
+    ShortUrl getOriginalUrl(String shortUrl);
 
-    ShortUrlEntity updateShortUrl(ShortUrlEntity newShortUrlEntity);
+    ShortUrl updateShortUrl(ShortUrl newShortUrl);
 
     void deleteByShortUrl(String shortUrl);
 

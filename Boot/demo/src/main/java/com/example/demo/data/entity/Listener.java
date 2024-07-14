@@ -21,7 +21,7 @@ import lombok.Setter;
 @Builder
 @Table(name = "listener")
 @EntityListeners(CustomListener.class)
-public class ListenerEntity {
+public class Listener {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

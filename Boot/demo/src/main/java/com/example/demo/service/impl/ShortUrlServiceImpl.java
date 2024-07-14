@@ -3,7 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.data.dao.ShortUrlDAO;
 import com.example.demo.data.dto.NaverUriDto;
 import com.example.demo.data.dto.ShortUrlResponseDto;
-import com.example.demo.data.entity.ShortUrlEntity;
+import com.example.demo.data.entity.ShortUrl;
 import com.example.demo.service.ShortUrlService;
 import java.net.URI;
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         String shortUrl = responseEntity.getBody().getResult().getUrl();
         String hash = responseEntity.getBody().getResult().getHash();
 
-        ShortUrlEntity shortUrlEntity = new ShortUrlEntity();
+        ShortUrl shortUrlEntity = new ShortUrl();
         shortUrlEntity.setOrgUrl(orgUrl);
         shortUrlEntity.setUrl(shortUrl);
         shortUrlEntity.setHash(hash);
@@ -55,20 +55,20 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     @Override
     public ShortUrlResponseDto getShortUrl(String client_id, String client_secret, String originalUrl) {
         LOGGER.info("[getShortUrl] request data : {}", originalUrl);
-        ShortUrlEntity getShortUrlEntity = shortUrlDAO.getShortUrl(originalUrl);
+        ShortUrl getShortUrl = shortUrlDAO.getShortUrl(originalUrl);
 
         String orgUrl;
         String shortUrl;
 
-        if (getShortUrlEntity == null){
+        if (getShortUrl == null){
             LOGGER.info("[getShortUrl] No Entity in Database.");
             ResponseEntity<NaverUriDto> responseEntity = requestShortUrl(client_id, client_secret, originalUrl);
 
             orgUrl = responseEntity.getBody().getResult().getOrgUrl();
             shortUrl = responseEntity.getBody().getResult().getUrl();
         } else {
-            orgUrl = getShortUrlEntity.getOrgUrl();
-            shortUrl = getShortUrlEntity.getUrl();
+            orgUrl = getShortUrl.getOrgUrl();
+            shortUrl = getShortUrl.getUrl();
         }
 
         ShortUrlResponseDto shortUrlResponseDto = new ShortUrlResponseDto(orgUrl, shortUrl);

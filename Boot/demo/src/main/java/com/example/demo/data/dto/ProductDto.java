@@ -1,6 +1,6 @@
 package com.example.demo.data.dto;
 
-import com.example.demo.data.entity.BaseEntity;
+import com.example.demo.data.entity.Base;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString
 @Builder
 @Table(name = "product")
-public class ProductDto extends BaseEntity {
+public class ProductDto extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

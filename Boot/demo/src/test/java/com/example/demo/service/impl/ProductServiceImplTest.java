@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.data.dto.ProductDto;
-import com.example.demo.data.entity.ProductEntity;
+import com.example.demo.data.entity.Product;
 import com.example.demo.data.handler.impl.ProductDataHandlerImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ public class ProductServiceImplTest {
     public void getProductTest() {
         // given
         Mockito.when(productDataHandler.getProductEntity("123"))
-                .thenReturn(new ProductEntity("123", "pen", 2000, 3000));
+                .thenReturn(new Product("123", "pen", 2000, 3000));
 
         ProductDto productDto = productService.getProduct("123");
 
@@ -45,7 +45,7 @@ public class ProductServiceImplTest {
     public void saveProductTest() {
         // given
         Mockito.when(productDataHandler.saveProductEntity("123", "pen", 2000, 3000))
-                .thenReturn(new ProductEntity("123", "pen", 2000, 3000));
+                .thenReturn(new Product("123", "pen", 2000, 3000));
 
         ProductDto productDto = productService.saveProduct("123", "pen", 2000, 3000);
 

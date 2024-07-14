@@ -1,11 +1,10 @@
 package com.example.demo.data.dao.impl;
 
 import com.example.demo.data.dao.ShortUrlDAO;
-import com.example.demo.data.entity.ShortUrlEntity;
+import com.example.demo.data.entity.ShortUrl;
 import com.example.demo.data.repository.ShortUrlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class ShortUrlDAOImpl implements ShortUrlDAO {
@@ -18,40 +17,40 @@ public class ShortUrlDAOImpl implements ShortUrlDAO {
     }
 
     @Override
-    public ShortUrlEntity getShortUrl(String originalUrl) {
-        ShortUrlEntity foundShortUrlEntity = shortUrlRepository.findByOrgUrl(originalUrl);
-        return foundShortUrlEntity;
+    public ShortUrl getShortUrl(String originalUrl) {
+        ShortUrl foundShortUrl = shortUrlRepository.findByOrgUrl(originalUrl);
+        return foundShortUrl;
     }
 
     @Override
-    public ShortUrlEntity saveShortUrl(ShortUrlEntity shortUrlEntity) {
-        ShortUrlEntity foundShortUrlEntity = shortUrlRepository.save(shortUrlEntity);
-        return foundShortUrlEntity;
+    public ShortUrl saveShortUrl(ShortUrl shortUrl) {
+        ShortUrl foundShortUrl = shortUrlRepository.save(shortUrl);
+        return foundShortUrl;
     }
 
     @Override
-    public ShortUrlEntity getOriginalUrl(String shortUrl) {
-        ShortUrlEntity foundShortUrlEntity = shortUrlRepository.findByUrl(shortUrl);
-        return foundShortUrlEntity;
+    public ShortUrl getOriginalUrl(String shortUrl) {
+        ShortUrl foundShortUrl = shortUrlRepository.findByUrl(shortUrl);
+        return foundShortUrl;
     }
 
     @Override
-    public ShortUrlEntity updateShortUrl(ShortUrlEntity newShortUrlEntity) {
-        ShortUrlEntity foundShortUrlEntity = shortUrlRepository.findByOrgUrl(newShortUrlEntity.getOrgUrl());
-        foundShortUrlEntity.setUrl(newShortUrlEntity.getUrl());
-        ShortUrlEntity savedShortUrlEntity = shortUrlRepository.save(foundShortUrlEntity);
-        return savedShortUrlEntity;
+    public ShortUrl updateShortUrl(ShortUrl newShortUrl) {
+        ShortUrl foundShortUrl = shortUrlRepository.findByOrgUrl(newShortUrl.getOrgUrl());
+        foundShortUrl.setUrl(newShortUrl.getUrl());
+        ShortUrl savedShortUrl = shortUrlRepository.save(foundShortUrl);
+        return savedShortUrl;
     }
 
     @Override
     public void deleteByShortUrl(String shortUrl) {
-        ShortUrlEntity foundShortUrlEntity = shortUrlRepository.findByUrl(shortUrl);
-        shortUrlRepository.delete(foundShortUrlEntity);
+        ShortUrl foundShortUrl = shortUrlRepository.findByUrl(shortUrl);
+        shortUrlRepository.delete(foundShortUrl);
     }
 
     @Override
     public void deleteByOriginalUrl(String originalUrl) {
-        ShortUrlEntity foundShortUrlEntity = shortUrlRepository.findByOrgUrl(originalUrl);
-        shortUrlRepository.delete(foundShortUrlEntity);
+        ShortUrl foundShortUrl = shortUrlRepository.findByOrgUrl(originalUrl);
+        shortUrlRepository.delete(foundShortUrl);
     }
 }

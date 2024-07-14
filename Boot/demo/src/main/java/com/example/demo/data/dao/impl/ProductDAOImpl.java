@@ -1,7 +1,7 @@
 package com.example.demo.data.dao.impl;
 
 import com.example.demo.data.dao.ProductDAO;
-import com.example.demo.data.entity.ProductEntity;
+import com.example.demo.data.entity.Product;
 import com.example.demo.data.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +17,14 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public ProductEntity saveProduct(ProductEntity productEntity) {
-        productRepository.save(productEntity);
-        return productEntity;
+    public Product saveProduct(Product product) {
+        productRepository.save(product);
+        return product;
     }
 
     @Override
-    public ProductEntity getProduct(String productId) {
-        ProductEntity productEntity = productRepository.getById(productId);
-        return productEntity;
+    public Product getProduct(String productId) {
+        Product product = productRepository.getById(productId);
+        return product;
     }
 }

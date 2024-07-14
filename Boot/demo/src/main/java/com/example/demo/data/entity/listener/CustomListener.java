@@ -1,6 +1,6 @@
 package com.example.demo.data.entity.listener;
 
-import com.example.demo.data.entity.ListenerEntity;
+import com.example.demo.data.entity.Listener;
 import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
@@ -16,37 +16,37 @@ public class CustomListener {
     private final Logger LOGGER = LoggerFactory.getLogger(CustomListener.class);
 
     @PostLoad
-    public void postLoad(ListenerEntity listenerEntity) {
+    public void postLoad(Listener listener) {
         LOGGER.info("[postLoad] called!!");
     }
 
     @PrePersist
-    public void prePersist(ListenerEntity listenerEntity) {
+    public void prePersist(Listener listener) {
         LOGGER.info("[prePersist] called!!");
     }
 
     @PostPersist
-    public void postPersist(ListenerEntity listenerEntity) {
+    public void postPersist(Listener listener) {
         LOGGER.info("[postPersist] called!!");
     }
 
     @PreUpdate
-    public void preUpdate(ListenerEntity listenerEntity) {
+    public void preUpdate(Listener listener) {
         LOGGER.info("[preUpdate] called!!");
     }
 
     @PostUpdate
-    public void postUpdate(ListenerEntity listenerEntity) {
+    public void postUpdate(Listener listener) {
         LOGGER.info("[postUpdate] called!!");
     }
 
     @PreRemove
-    public void preRemove(ListenerEntity listenerEntity) {
+    public void preRemove(Listener listener) {
         LOGGER.info("[preRemove] called!!");
     }
 
     @PostRemove
-    public void PostRemove(ListenerEntity listenerEntity) {
+    public void PostRemove(Listener listener) {
         LOGGER.info("[PostRemove] called!!");
     }
 }

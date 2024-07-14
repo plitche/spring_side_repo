@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.data.entity.ListenerEntity;
+import com.example.demo.data.entity.Listener;
 import com.example.demo.service.ListenerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,24 +29,24 @@ public class ListenerController {
 
     @PostMapping
     public void saveListener(String name) {
-        ListenerEntity listenerEntity = new ListenerEntity();
-        listenerEntity.setName(name);
+        Listener listener = new Listener();
+        listener.setName(name);
 
-        listenerService.saveEntity(listenerEntity);
+        listenerService.saveEntity(listener);
     }
 
     @PutMapping
     public void updateListener(Long id, String name) {
-        ListenerEntity listenerEntity = new ListenerEntity();
-        listenerEntity.setId(id);
-        listenerEntity.setName(name);
+        Listener listener = new Listener();
+        listener.setId(id);
+        listener.setName(name);
 
-        listenerService.updateEntity(listenerEntity);
+        listenerService.updateEntity(listener);
     }
 
     @DeleteMapping
     public void deleteListener(Long id) {
-        ListenerEntity entity = listenerService.getEntity(id);
+        Listener entity = listenerService.getEntity(id);
 
         listenerService.removeEntity(entity);
     }

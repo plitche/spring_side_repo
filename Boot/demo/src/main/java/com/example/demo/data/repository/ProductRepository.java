@@ -1,56 +1,61 @@
 package com.example.demo.data.repository;
 
-import com.example.demo.data.entity.ProductEntity;
+import com.example.demo.data.entity.Product;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 // @Repository
-public interface ProductRepository extends JpaRepository<ProductEntity, String> {
+public interface ProductRepository extends JpaRepository<Product, String> {
 
     /* 쿼리 메소드의 주제 키워드 */
 
     // 조회
-    List<ProductEntity> findByProductName(String name); // List<ProductEntity> findProductEntityByProductName(String name);
-    List<ProductEntity> queryByProductName(String name);
+    List<Product> findByName(String name); // List<ProductEntity> findProductEntityByName(String name);
+    List<Product> queryByName(String name);
 
     // 존재 유무
-    boolean existsByProductName(String name);
+    boolean existsByName(String name);
 
     // 쿼리 결과 개수
-    long countByProductName(String name);
+    long countByName(String name);
 
     // 삭제
-    void deleteByProductId(String id);
-    long removeByProductId(String id);
+    void deleteById(String id);
+    long removeById(String id);
 
     // 값 개수 제한
-    List<ProductEntity> findFirst5ByProductName(String name);
-    List<ProductEntity> findTop3ByProductName(String name);
+    List<Product> findFirst5ByName(String name);
+    List<Product> findTop3ByName(String name);
 
     /* 쿼리 메소드의 조건자 키워드 */
 
     // Is, Equals (생략 가능)
     // Logical keyword : IS , keyword Expressions : Is, Equals, (or no keyword)
     // findByNumber 메소드와 동일하게 동장
-    ProductEntity findByProductIdIs(String id);
-    ProductEntity findByProductIdEquals(String id);
+    Product findByIdIs(String id);
+    Product findByIdEquals(String id);
 
     // (Is)Not
-    List<ProductEntity> findByProductIdNot(String id);
-    List<ProductEntity> findByProductIdIsNot(String id);
+    List<Product> findByIdNot(String id);
+    List<Product> findByIdIsNot(String id);
 
     // (Is)Null, (Is)NotNull
-    List<ProductEntity> findByProductStockIsNull();
-    List<ProductEntity> findByProductStockIsNotNull();
+    List<Product> findByProductStockIsNull();
+    List<Product> findByProductStockIsNotNull();
 
     // And, Or
-    List<ProductEntity> findTopByProductIdAndProductName(String id, String name);
+    List<Product> findTopByIdAndName(String id, String name);
 
     // (Is)GreaterThan, (Is)LessThan, (Is)Between
-    List<ProductEntity> findByProductPriceGreaterThan(Integer price);
+    List<Product> findByProductPriceGreaterThan(Integer price);
 
     // (Is)Like, (Is)Containing, (Is)StartingWith, (Is)EndingWith
-    List<ProductEntity> findByProductNameContaining(String name);
+    List<Product> findByNameContaining(String name);
 
+
+
+    /* 정렬과 페이징 */
+
+    // Asc : 오름차순, Desc : 내림차순
+    List<Product> findByNameContainingOrderByStockAsc(String name);
 }
