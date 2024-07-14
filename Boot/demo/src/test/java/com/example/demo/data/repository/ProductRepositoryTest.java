@@ -6,6 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -191,5 +194,108 @@ public class ProductRepositoryTest {
 
         System.out.println(productRepository.findByNameContaining("상품1"));
     }
+
+    /* 정렬과 페이징 */
+    @Test
+    void orderByTest() {
+        List<Product> foundAll = productRepository.findAll();
+        System.out.println("=====↓↓ Test Data ↓↓=====");
+        for (Product product : foundAll) {
+            System.out.println("productEntity = " + product);
+        }
+        System.out.println("=====↑↑ Test Data ↑↑=====");
+
+        List<Product> foundProducts = productRepository.findByNameContainingOrderByStockAsc("상품");
+        for (Product foundProduct : foundProducts) {
+            System.out.println("foundProduct = " + foundProduct);
+        }
+
+        foundProducts = productRepository.findByNameContainingOrderByStockDesc("상품");
+        for (Product foundProduct : foundProducts) {
+            System.out.println("foundProduct = " + foundProduct);
+        }
+    }
+
+    @Test
+    void multiOrderByTest() {
+        List<Product> foundAll = productRepository.findAll();
+        System.out.println("=====↓↓ Test Data ↓↓=====");
+        for (Product product : foundAll) {
+            System.out.println("productEntity = " + product);
+        }
+        System.out.println("=====↑↑ Test Data ↑↑=====");
+
+        List<Product> foundProducts = productRepository.findByNameContainingOrderByPriceAscStockDesc("상품");
+        for (Product foundProduct : foundProducts) {
+            System.out.println("foundProduct = " + foundProduct);
+        }
+    }
+
+    @Test
+    void orderByWithParameterTest() {
+        List<Product> foundAll = productRepository.findAll();
+        System.out.println("=====↓↓ Test Data ↓↓=====");
+        for (Product product : foundAll) {
+            System.out.println("productEntity = " + product);
+        }
+        System.out.println("=====↑↑ Test Data ↑↑=====");
+
+        List<Product> foundProducts = productRepository.findByNameContaining("상품"
+            , Sort.by(Order.asc("price")));
+        for (Product foundProduct : foundProducts) {
+            System.out.println("foundProduct = " + foundProduct);
+        }
+
+        foundProducts = productRepository.findByNameContaining("상품"
+            , Sort.by(Order.asc("price"), Order.asc("stock")));
+        for (Product foundProduct : foundProducts) {
+            System.out.println("foundProduct = " + foundProduct);
+        }
+    }
+
+    @Test
+    void pagingTets() {
+        List<Product> foundAll = productRepository.findAll();
+        System.out.println("=====↓↓ Test Data ↓↓=====");
+        for (Product product : foundAll) {
+            System.out.println("productEntity = " + product);
+        }
+        System.out.println("=====↑↑ Test Data ↑↑=====");
+
+        List<Product> foundProducts = productRepository.findByPriceGreaterThan(200
+            , PageRequest.of(0, 2));
+        for (Product foundProduct : foundProducts) {
+            System.out.println("foundProduct = " + foundProduct);
+        }
+
+        foundProducts = productRepository.findByPriceGreaterThan(200
+            , PageRequest.of(2, 2));
+        for (Product foundProduct : foundProducts) {
+            System.out.println("foundProduct = " + foundProduct);
+        }
+
+        foundProducts = productRepository.findByPriceGreaterThan(200
+            , PageRequest.of(4, 2));
+        for (Product foundProduct : foundProducts) {
+            System.out.println("foundProduct = " + foundProduct);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
