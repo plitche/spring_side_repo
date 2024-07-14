@@ -1,0 +1,34 @@
+* @Query 어노테이션 사용하기
+  - 사용배경
+    > 쿼리 메소드를 통해 쿼리를 생성하는 방식은 조건이 많아질 경우 메소드의 이름이 길어져 가독성이 떨어짐
+    > 비교적 복잡한 쿼리를 작성하기 위해 사용됨
+
+* @Query 어노테이션
+  - Spring Data JPA에서 제공하는 기능으로 JPQL을 사용하여 쿼리를 작성하는 방법
+  - JPQL은 SQL과 문법이 거의 비슷하기 때문에 사용하는데 용이함
+  - JPQL은 엔티티 객체를 대상으로 쿼리를 수행함
+
+* @Query 문법 - 기본 쿼리 작성 방법
+  - 직접 쿼리를 사용하는 방법
+    > @Query("SELECT p FROM Product p WHERE p.price > 2000")
+      List<Product> findByPriceBasis();
+
+  - DB의 Native Query를 사용하는 방법
+    > @Query(value = "SELECT * FROM product p WHERE p.price > 2000", antiveQuery = true)
+      List<Product> findByPriceBasisNativeQuery();
+
+* @Query 문법 - 파라미터를 쿼리에 주입하는 방법
+  - 파라미터를 쿼리에 주입하는 방법
+    > @Query("SELECT p FROM Product p WHERE p.price > ?1")
+      List<Product> findByPriceWIthParameter(Integer price);
+
+  - :parameter 방식으로 주입하는 방법
+    > @Query("SELECT p FROM Product p WHERE p.price > :price")
+      List<Product> findByPriceWithParameterNaming(Integer price);
+
+    > @Query("SELECT p FROM Product p WHERE p.price > :pri")
+      List<Product> findByPriceWithParameterNaming2(@Param("pri") Integer price);
+
+* 공식 레퍼런스
+  - https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.at-query
+
