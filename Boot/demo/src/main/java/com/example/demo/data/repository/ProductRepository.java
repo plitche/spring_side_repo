@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 // @Repository
 public interface ProductRepository extends JpaRepository<Product, String> {
@@ -70,4 +72,28 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 
     // 페이징 처리하기
     List<Product> findByPriceGreaterThan(Integer price, Pageable pageable);
+
+    /* @Query 사용하기 */
+    // 메소드 명은 중요하지 않음
+    @Query("SELECT p FROM Product p WHERE p.price > 2000")
+    List<Product> findByPriceBasis();
+
+    @Query(value = "SELCT * FROM product p WHERE p.price > 2000", nativeQuery = true)
+    List<Product> findByPriceBasisNativeQuery();
+
+    @Query("SELECT p FROM Product p WHERE p.price > ?1")
+    List<Product> findByPriceWithParameter(Integer price);
+
+    @Query("SELECT p FROM Product p WHERE p.price > :price")
+    List<Product> findByPriceWithParameterNaming(Integer price);
+
+    @Query("SELECT p FROM Product p WHERE p.price > :pri")
+    List<Product> findByPriceWithParameterNaming2(@Param("pri") Integer price);
+
+    // 페이징
+    @Query(value = "SELECT * FROM product WHERE price > :price",
+    countQuery = "SELECT count(*) FROM product WHER price > ?1",
+    nativeQuery = true)
+    List<Product> findByPriceWIthParameterPaging(Integer price, Pageable pageable);
+
 }
