@@ -1,0 +1,28 @@
+* 프로파일
+  - 스프링 부트에서는 서버의 환경에 맞춰 애플리케이션의 설정을 다르게 설정할 수 있는 '프로파일' 기능을 제공
+  - 프로파일을 통해 아래와 같은 설정을 할 수 있음
+    > 특정 환경에서 실행할 Bean 설정
+    > 특정 환경에서 사용할 프로퍼티 파일 설정
+
+  - 특정 환경에서 실행할 Bean을 설정하기 위해서는 @Profile을 사용함
+    // @Profile("!dev") 연산자도 사용 가능
+    @Profile("dev")
+    @Configuration
+    public class DevConfiguration implements EnvConfiguration {
+      @Value("${around.hub.loading.mesasge}")
+      private String mesasge;
+
+      @Override
+      @Bean
+      public String getMessage() {
+        return message;
+      }
+    }
+
+  - @Profile과 같은 곳에서 사용되는 환경의 선언은 JVM 시스템 변수로 전달함
+    : Dspring.profiles.active=dev
+
+* application.properties 분리하기
+  - 애플리케이션이 가동되는 환경에 따라 application.properties를 별도로 구분하여 관리할 수 있음
+  - 파일 이름의 형식은 'application-[profile].preoperties'로 지정해야 함
+
