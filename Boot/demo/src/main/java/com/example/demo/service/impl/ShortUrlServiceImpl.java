@@ -4,9 +4,11 @@ import com.example.demo.data.dao.ShortUrlDAO;
 import com.example.demo.data.dto.NaverUriDto;
 import com.example.demo.data.dto.ShortUrlResponseDto;
 import com.example.demo.data.entity.ShortUrl;
+import com.example.demo.data.repository.ShortUrlRedisRepository;
 import com.example.demo.service.ShortUrlService;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,12 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     private final Logger LOGGER = LoggerFactory.getLogger(ShortUrlServiceImpl.class);
 
     private final ShortUrlDAO shortUrlDAO;
+    private final ShortUrlRedisRepository shortUrlRedisRepository;
 
     @Autowired
-    public ShortUrlServiceImpl(ShortUrlDAO shortUrlDAO) {
+    public ShortUrlServiceImpl(ShortUrlDAO shortUrlDAO, ShortUrlRedisRepository shortUrlRedisRepository) {
         this.shortUrlDAO = shortUrlDAO;
+        this.shortUrlRedisRepository = shortUrlRedisRepository;
     }
 
     @Override
@@ -48,6 +52,10 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         shortUrlDAO.saveShortUrl(shortUrlEntity);
 
         ShortUrlResponseDto shortUrlResponseDto = new ShortUrlResponseDto(orgUrl, shortUrl);
+
+        // cache 로직
+        shortUrlRedisRepository.save(shortUrlResponseDto);
+
         LOGGER.info("[generateShortUrl] Response DTO : {}", shortUrlResponseDto.toString());
         return shortUrlResponseDto;
     }
@@ -55,6 +63,18 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     @Override
     public ShortUrlResponseDto getShortUrl(String client_id, String client_secret, String originalUrl) {
         LOGGER.info("[getShortUrl] request data : {}", originalUrl);
+
+        // cache 로직
+        Optional<ShortUrlResponseDto> foundResponseDto = shortUrlRedisRepository
+            .findById(originalUrl);
+
+        if (foundResponseDto.isPresent()) {
+            LOGGER.info("[getShortUrl] Cache Data does existed.");
+            return foundResponseDto.get();
+        } else {
+            LOGGER.info("[getShortUrl] Cache Data does not existed.");
+        }
+
         ShortUrl getShortUrl = shortUrlDAO.getShortUrl(originalUrl);
 
         String orgUrl;
