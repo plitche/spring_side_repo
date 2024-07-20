@@ -1,0 +1,42 @@
+* Spring Boot DevTools의 기능
+  - Property Defaults
+    > Spring에서 제공하는 thymeleaf는 기본적으로 캐싱 기능을 사용합니다.
+    > 하지만 개발과정에서 캐싱이 되어있다면, 우리가 thymeleaf 파일을 수정하더라도, 반영되지 않을 거에요.
+    > Application cache 설정값을 false로 수정해야 하죠.
+    > 이러한 작업을 Spring Boot DevTools에서 제공합니다.
+    > 개발 시점과 배포 시점에 다른 설정을 기본적으로 개발 단계에 맞춰 설정해줍니다.
+    > 예를 들어 템플릿 엔진의 캐싱 기능을 개발 단계에서 자동으로 꺼주는 역할을 하죠. 따라서 개발자는 설정 파일을 건드리지 않아도 된답니다.
+
+  - Automatic Restart
+    > Spring Boot Application을 개발하다 보면 애플리케이션을 재시작해야 하는 경우가 많더라구요.
+    > 심지어 클래스의 필드 하나를 고쳐도 Ctrl + R 단축키를 누르는 수고스러움을 감수해야 하죠.
+    > Spring Boot DevTools는 이 기능을 자동으로 제공합니다.
+    > 파일 수정 후 저장을 하면, Classpath에 존재하는 파일의 변경을 감지하고, 자동으로 서버를 restart 해줍니다.
+    > 설정을 통해 원하는 디렉터리만을 트리거로 설정할 수도 있어요!
+
+  - Live Reload
+    > React에 대한 경험이 있으시다면, Hot reload를 아실 겁니다. JS 파일을 수정하기만 해도 자동으로 브라우저가 새로 고침 되는 기능이죠.
+    > DevTools 또한 이 기능을 제공합니다.
+    > 내부적으로 live reload 서버를 두고, 브라우저 확장프로그램과 통신하는 방식으로 동작하죠.
+    > https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=ko 크롬 확장프로그램을 받고, enable을 하면 됩니다.
+
+  - Global Settings
+  - Remote Applications
+
+* 설정 방법
+  1. Gradle/Maven에 의존성 추가
+    // build.gradle
+    configurations {
+    	developmentOnly
+    	runtimeClasspath {
+    		extendsFrom developmentOnly
+    	}
+    }
+    dependencies {
+    	developmentOnly("org.springframework.boot:spring-boot-devtools")
+    }
+
+  2. Intellij 화면에서 Cmd + Shift + A 를 입력하여 Registry... 으로 들어가 compiler.automake.allow.when.app.running 을 체크하고 close 합니다.
+  3. Preference 의 Build, Execution, Deployment -> Compiler -> Build project automatically 를 체크하고 apply 합니다.
+  4. 만약 Live Reload가 정상적으로 수행이 안된다면, Intellij 우측 상단에 있는 APPLICATION 버튼을 누르면 Edit Configuration 버튼이 나옵니다.
+     클릭하고, Spring Boot의 application 에서 On 'Update' action 과 On frame deactivation 값을 모두 Update resources 로 설정합니다.
