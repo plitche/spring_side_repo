@@ -40,3 +40,7 @@
   3. Preference 의 Build, Execution, Deployment -> Compiler -> Build project automatically 를 체크하고 apply 합니다.
   4. 만약 Live Reload가 정상적으로 수행이 안된다면, Intellij 우측 상단에 있는 APPLICATION 버튼을 누르면 Edit Configuration 버튼이 나옵니다.
      클릭하고, Spring Boot의 application 에서 On 'Update' action 과 On frame deactivation 값을 모두 Update resources 로 설정합니다.
+
+* settings
+  > Build, Execution, Deployment - Complier - Build project automatically
+
