@@ -1,0 +1,19 @@
+1. gradle.org/releases 사이트 접속
+  - binary-only zip 파일 다운로드
+  - zip 파일을 환경변수 등록 필요
+    > 시스템 변수
+    > Path
+  - cmd > gradle 버전 확인
+
+2. intelliJ terminal
+  - gradle init
+  - intelliJ : Load Gradle Project
+  - pom.xml 삭제
+
+3. build.gradle
+  - 리팩토링
+  - 초기에 implementation으로 세팅되어 있으나 annotationProcessor로 해도 상관없음
+  - Test 코드에 관련 사항 작성
+    test {
+      userJUnitPlatform()
+    }
