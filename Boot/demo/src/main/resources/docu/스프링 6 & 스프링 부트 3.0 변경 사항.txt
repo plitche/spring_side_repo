@@ -1,0 +1,81 @@
+* 스프링 6 & 스프링 부트 3.0 변경 사항
+  - 22년 11월 Spring 6.0이 공식적으로 릴리즈
+  - 핵심 변경 사항
+    > Java 17버전을 Baseline으로 결정
+    > Java EE : 최근 릴리즈된 Jakarta EE 10 버전에 중점으로 변경
+    > Tomcat 10.1 적용
+    > Hibernate ORM 6.1 적용
+
+  - 인프라 측면에서 변경 사항
+    > AOT(Ahead-Of-Time) 도입
+    > GraalVM 네이티브 이미지 지원
+    > Project Loom(Java 19)이라는 가상 스레드(Virtual Thread) 지원, Project CRaC 활용 가능
+
+* 요구사항(Requirements)
+  - Java Version : Java 17+
+  - Gradle 7.5+, Maven 3.5+
+  - Hibernate 6.1
+  - Spring Framework 6
+  - Jakarta EE 9+
+
+* 업그레이드(마이그레이션)
+  - 기존 스프링 부터 2.7버전에서 업그레이드 하기 위해서는 가이드를 따르는 것이 좋음
+  ()
+
+  - 각 스프링 부트 버전의 의존성을 체크
+    > 부트 2.7 Dependency Versions :
+    > 부트 3.0 Dependency Versions :
+
+  - Spring Security
+    > 스프링 부트 3.0은 스프링 시큐리티 6.0을 사용
+    > 이전 버전을 사용하고 있다면 5.8 버전으로 먼저 마이그레이션 후 6.0으로 업그레이드 권고
+    > 관련 마이그레이션 가이드 문서 :
+    > 5.8 -> 6.0 마이그레이션 가이드
+
+* Jakarta EE
+  - 1999년 썬 마이크로시스템즈가 J2EE(Java 2 Enterprise Edition) 발표
+  - Enterprise 애플리케이션을 위한 기능 제공
+    > Servlet, JSP, EJB, JDBC, JMX 등
+  - 이후 오라클에서 인수한 후 Java EE 8 버전까지 발표
+
+  - 2017년 오라클은 이클립스 재단에 Java EE 프로젝트를 이관
+  - 이관된 후 Java EE는 Jakarta EE로 이름을 변경
+  - 패키지 명 또한 변경됨 : javax.* -> Jakarta.*
+    > 이번 스프링 부트 3.0에서는 Jakarta 9+를 채택하면서 javax 패키지를 사용하는 import 구문의 변경이 필요
+
+* AOT Compiler
+  - AOT Compiler를 이해하기 위해서는 JIT Compiler를 이해하는 것이 좋음
+    두 컴파일러 모두 기계어를 만든다는 역할은 동일함
+
+  - AOT 컴파일러는 실행하기 전에 코드에 대한 정적 코드 테스트를 진행하고 그것을 기반으로 기계어를 생성
+    JIT 컴파일러는 런타임에 기계어를 생성
+
+  - AOT 컴파일러
+    > 실행 전에 무겁고 복잡한 분석 및 최적화가 수행됨
+    > 런타임에 실행하는 속도가 빠름
+    > 아직 코드 최적화가 부족
+
+  - JIT 컴파일러
+    > 상황에 맞춘 최적화 코드를 생성할 수 있음
+    > 런타임에 오버 헤드가 발생
+    > C1, C2 컴파일러로 구성되어 있음
+
+  - Intel CPU 코드에 Java 최적화 기능이 추가되고 있음
+
+* GraalVM
+  - GraalVM은 Java로 구현된 HotSpot/OpenJDK 기반의 Java VM 및 JDK
+  - 기존 JDK와의 차이점
+    > GraalVm Compiler <> JIT Compiler
+    > GraalVM Native Image, AOT Compilation을 기반으로 한 JIT Compiler를 사용
+    > Truffle 언어 구현 프레임워크 및 GraalVM SDK 제공
+      : 다른 프로그래밍 언어(Javascript, Ruby, R 등)를 런타임으로 동작할 수 있게 지원
+    > Native 애플리케이션으로 확장
+
+* Native Image
+  - 기존의 Native 환경에서 구동하는 방식
+    > HotSpot 위에 Java를 구성하고 그 위에서 애플리케이션을 가동
+
+  - Native Image는 자바 코드를 독립형 네이티브 실행 파일 또는 네이티브 공유 라이브러리로 컴파일하는 기술
+  - 생성된 네이티브 실행 파일은 JVM이 설치되어 있지 않아도 OS와 머신 아키텍처에서 사용할 수 있음
+
+  - 생성된 Native Image 안에는 SubstrateVM(SVM)이 포함되어 있음
