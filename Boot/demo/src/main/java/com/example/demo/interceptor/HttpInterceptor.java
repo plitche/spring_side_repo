@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,10 +12,17 @@ import org.springframework.web.servlet.ModelAndView;
 @Component
 public class HttpInterceptor implements HandlerInterceptor {
 
+    @Value("${plitche.hub.check}")
+    protected boolean check;
+
     private final Logger LOGGER = LoggerFactory.getLogger(HttpInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (check) {
+            LOGGER.info("실행되지 말아야할 기능");
+        }
+
         LOGGER.info("[preHandler] preHandler is performed");
 //        LOGGER.info("[preHandler] request : {}", request);
 //        LOGGER.info("[preHandler] request path info : {}", request.getPathInfo());
