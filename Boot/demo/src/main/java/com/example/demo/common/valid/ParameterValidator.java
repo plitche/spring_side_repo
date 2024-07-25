@@ -1,8 +1,8 @@
 package com.example.demo.common.valid;
 
 import com.example.demo.common.annotation.ValidationAnnotation;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class ParameterValidator implements ConstraintValidator<ValidationAnnotation, String> {
 

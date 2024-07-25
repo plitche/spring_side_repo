@@ -11,13 +11,12 @@ import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
-import springfox.documentation.service.ApiDescription;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
-public class SwaggerConfiguration {
+public class OpenAPIConfiguration {
 
     private static final String API_NAME = "Programmers Spring Boot Application";
     private static final String API_VERSION = "1.0.0";
