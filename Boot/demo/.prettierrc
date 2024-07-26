@@ -1,0 +1,7 @@
+useTabs: false
+tabWidth: 2
+endOfLine: If
+semi: true
+tailingComma: es5
+singleQuote: true
+printWidth: 120
