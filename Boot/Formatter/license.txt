@@ -1,0 +1,4 @@
+/*
+ * (C) 2023 MyCompany
+ * All rights reserved.
+ */

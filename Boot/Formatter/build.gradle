@@ -42,12 +42,43 @@ spotless {
             [참고] https://github.com/google/google-java-format/issues/525
          */
 
-		target "**/FormatterApplication.java", "**/FormatterApplication2.java"
-		googleJavaFormat().aosp()
-		importOrder('java', 'javax', 'jakarta', 'org', 'com') // 아래 순서로 import문 정렬
-		removeUnusedImports() // 사용하지 않는 import 제거
-		trimTrailingWhitespace() // 각 라인 끝에 있는 공백을 제거
-		endWithNewline() // 파일 끝에 새로운 라인 추가
+		target "**/FormatterApplication.java", "**/*.java"
+
+		// Google Java 포맷 적용
+		googleJavaFormat()  // 기본적으로 탭을 2개의 공백으로 사용
+		// googleJavaFormat().aosp()  // 탭을 4개의 공백으로 사용 (AOSP 스타일)
+
+		// Eclipse 포맷 적용
+		// eclipse().configFile 'path/to/eclipse-formatting.xml'  // Eclipse 스타일을 사용할 수 있으며, 설정 파일을 지정할 수 있습니다.
+
+		// Import 순서 지정
+		importOrder('java', 'javax', 'org', 'com')  // import 문을 지정한 순서로 정렬합니다.
+
+		// 추가 포맷팅 규칙
+		removeUnusedImports()  // 사용되지 않는 import 문을 제거합니다.
+		trimTrailingWhitespace()  // 각 라인의 끝에 있는 불필요한 공백을 제거합니다.
+		endWithNewline()  // 파일 끝에 새 줄을 추가합니다.
+
+		// 커스텀 포맷터
+		// 모든 'foo'를 'bar'로 바꾸는 포맷터.
+		custom 'CustomFormat', { str -> str.replaceAll('foo', 'bar') }
+
+		// License header
+		licenseHeaderFile 'license.txt'  // 파일의 맨 위에 라이센스 헤더를 추가합니다.
+		// licenseHeader '/* (C) 2023 MyCompany */'  // 문자열로 라이센스 헤더를 직접 추가할 수도 있습니다.
+		// licenseHeaderFile 'path/to/license.txt', 'package'  // 'package' 키워드 바로 위에 라이센스 헤더를 추가합니다.
+
+		/*
+		licenseHeaderFile 'licenseFoo.txt'
+            .named('licenseFoo') // 이름을 지정합니다.
+            .onlyIfContentHas('/* Foo') // 파일 내용에 /* Foo가 있는 경우에만 적용합니다.
+            .onlyIfPathContains('foo') // 파일 경로에 foo가 포함된 경우에만 적용합니다.
+
+        licenseHeaderFile 'licenseBar.txt'
+            .named('licenseBar') // 이름을 지정합니다.
+            .onlyIfContentHas('/* Bar') // 파일 내용에 /* Bar가 있는 경우에만 적용합니다.
+            .onlyIfPathContains('bar') // 파일 경로에 bar가 포함된 경우에만 적용합니다.
+		*/
 	}
 }
 
