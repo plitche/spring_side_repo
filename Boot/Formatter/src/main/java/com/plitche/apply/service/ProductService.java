@@ -1,24 +1,28 @@
+/*
+ * (C) 2023 MyCompany
+ * All rights reserved.
+ */
 package com.plitche.apply.service;
-
-import com.plitche.apply.dto.Product;
 
 import java.util.List;
 
+import com.plitche.apply.dto.Product;
+
 public interface ProductService {
 
-    void addProduct(Long id, String name, int price, int stock, String serialNo, String description);
+  void addProduct(Long id, String name, int price, int stock, String serialNo, String description);
 
-    List<Product> getAllProduct();
+  List<Product> getAllProduct();
 
-    List<Product> getProductByName(String name);
+  List<Product> getProductByName(String name);
 
-    Product getProductById(Long id);
+  Product getProductById(Long id);
 
-    void deleteProductByName(String name);
+  void deleteProductByName(String name);
 
-    void deleteProductById(Long id);
+  void deleteProductById(Long id);
 
-    int getTotalPrice();
+  int getTotalPrice();
 
-    int getTotalStock();
+  int getTotalStock();
 }

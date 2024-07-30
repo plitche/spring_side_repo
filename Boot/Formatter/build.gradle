@@ -42,7 +42,7 @@ spotless {
             [참고] https://github.com/google/google-java-format/issues/525
          */
 
-		target "**/FormatterApplication.java", "**/*.java"
+		target "src/main/java/com/plitche/apply/**/*.java"
 
 		// Google Java 포맷 적용
 		googleJavaFormat()  // 기본적으로 탭을 2개의 공백으로 사용
