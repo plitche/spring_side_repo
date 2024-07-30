@@ -7,8 +7,8 @@ package com.plitche.formatter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.plitche.example.Library;
-import com.plitche.utils.Utils;
+import com.plitche.apply.example.Library;
+import com.plitche.apply.utils.Utils;
 
 @SpringBootApplication
 public class FormatterApplication {
