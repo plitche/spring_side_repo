@@ -14,7 +14,6 @@ java {
 	targetCompatibility = JavaVersion.VERSION_17
 }
 
-
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -35,13 +34,6 @@ dependencies {
 
 spotless {
 	java {
-		// Google Java 포맷 적용
-		/*
-            googleJavaFormat() : 탭은 2개의 공백
-            googleJavaFormat().aosp() : 탭은 4개의 공백
-            [참고] https://github.com/google/google-java-format/issues/525
-         */
-
 		target "src/main/java/com/plitche/apply/**/*.java"
 
 		// Google Java 포맷 적용
